@@ -1,10 +1,18 @@
-import { IonHeader, IonPage } from "@ionic/react"
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import WorkoutList from "../components/WorkoutList";
 
 const Home = () => {
-    return (
-        <IonPage>
-            <IonHeader>Home</IonHeader>
-        </IonPage>
-    )
-}
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Home</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <WorkoutList />
+      </IonContent>
+    </IonPage>
+  );
+};
 export default Home;
