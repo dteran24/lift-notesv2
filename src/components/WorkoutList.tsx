@@ -5,22 +5,28 @@ import {
   IonLabel,
   IonCard,
 } from "@ionic/react";
-import mockData from "../MockData.json";
-import WorkoutCard from "./WorkoutCard";
 
-const WorkoutList = () => {
+import WorkoutCard from "./WorkoutCard";
+import { WorkoutData } from "../models/WorkoutModel";
+
+interface WorkoutListProps {
+  data: WorkoutData;
+}
+
+const WorkoutList = (props: WorkoutListProps) => {
+  const { data } = props;
   return (
     <IonAccordionGroup>
-      {mockData.Workouts.map((workout, index) => {
+      {data.Workouts.map((workout, index) => {
         return (
-          <IonAccordion value={index.toString()}>
+          <IonAccordion value={index.toString()} key={index}>
             <IonItem slot="header" color="light">
               <IonLabel>{workout.Category}</IonLabel>
             </IonItem>
             {workout.Exercises.map((workoutItem) => {
               return (
-                <div className="ion-padding" slot="content">
-                  <WorkoutCard workoutItem={workoutItem}/>
+                <div className="ion-padding" slot="content" key={workoutItem.id}>
+                  <WorkoutCard workoutItem={workoutItem} />
                 </div>
               );
             })}

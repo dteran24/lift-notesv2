@@ -4,6 +4,7 @@
       "Category": "Chest",
       "Exercises": [
         {
+          "id": 1,
           "WorkoutName": "Bench Press",
           "Reps": 10,
           "Sets": 3,
@@ -12,6 +13,7 @@
           "Date": "2023-08-14"
         },
         {
+          "id": 2,
           "WorkoutName": "Dumbbell Flyes",
           "Reps": 12,
           "Sets": 3,
@@ -25,6 +27,7 @@
       "Category": "Shoulders",
       "Exercises": [
         {
+          "id": 3,
           "WorkoutName": "Military Press",
           "Reps": 8,
           "Sets": 4,
@@ -33,6 +36,7 @@
           "Date": "2023-08-14"
         },
         {
+          "id": 4,
           "WorkoutName": "Lateral Raises",
           "Reps": 15,
           "Sets": 3,
@@ -46,6 +50,7 @@
       "Category": "Back",
       "Exercises": [
         {
+          "id": 5,
           "WorkoutName": "Deadlifts",
           "Reps": 5,
           "Sets": 5,
@@ -54,6 +59,7 @@
           "Date": "2023-08-12"
         },
         {
+          "id": 6,
           "WorkoutName": "Pull-ups",
           "Reps": 10,
           "Sets": 3,
@@ -67,6 +73,7 @@
       "Category": "Arms",
       "Exercises": [
         {
+          "id": 7,
           "WorkoutName": "Bicep Curls",
           "Reps": 12,
           "Sets": 4,
@@ -75,6 +82,7 @@
           "Date": "2023-08-10"
         },
         {
+          "id": 8,
           "WorkoutName": "Tricep Dips",
           "Reps": 10,
           "Sets": 3,
@@ -88,6 +96,7 @@
       "Category": "Legs",
       "Exercises": [
         {
+          "id": 9,
           "WorkoutName": "Squats",
           "Reps": 8,
           "Sets": 4,
@@ -96,6 +105,7 @@
           "Date": "2023-08-08"
         },
         {
+          "id": 10,
           "WorkoutName": "Leg Press",
           "Reps": 12,
           "Sets": 3,

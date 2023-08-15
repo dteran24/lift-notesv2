@@ -1,5 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import WorkoutList from "../components/WorkoutList";
+import mockData from '../MockData.json'
 
 const Home = () => {
   return (
@@ -10,7 +11,7 @@ const Home = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <WorkoutList />
+              <WorkoutList data={mockData} />
       </IonContent>
     </IonPage>
   );

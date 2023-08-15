@@ -1,17 +1,18 @@
-import WorkoutList from "../components/WorkoutList";
-
-export interface WorkoutItem {
-  WorkoutName: String;
-  Reps: Number;
-  Sets: Number;
-  Weight: Number;
-  Notes: String;
-  Date: String;
+export interface Exercise {
+    id: number;
+    WorkoutName: string;
+    Reps: number;
+    Sets: number;
+    Weight: number;
+    Notes: string;
+    Date: string; // You can use a specific Date type library if needed
 }
-export interface WorkoutList {
-  Chest: WorkoutItem[];
-  Shoulders: WorkoutItem[];
-  Back: WorkoutItem[];
-  Arms: WorkoutItem[];
-  Legs: WorkoutItem[];
+
+export interface WorkoutCategory {
+    Category: string;
+    Exercises: Exercise[];
+}
+
+export interface WorkoutData {
+    Workouts: WorkoutCategory[];
 }
