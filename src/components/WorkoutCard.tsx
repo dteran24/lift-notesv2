@@ -49,15 +49,15 @@ const WorkoutCard = (props: WorkoutCardProps) => {
           <IonItem>
             <IonCard>
               <IonCardHeader>
-                <IonCardTitle>{workoutItem.WorkoutName}</IonCardTitle>
-                <IonCardSubtitle>{`Last Updated: ${workoutItem.Date}`}</IonCardSubtitle>
+                <IonCardTitle>{workoutItem.name}</IonCardTitle>
+                <IonCardSubtitle>{`Last Updated: ${workoutItem.date}`}</IonCardSubtitle>
               </IonCardHeader>
               <IonCardContent>
                 <IonList className="ion-padding-bottom">
-                  <IonItem>{`Reps: ${workoutItem.Reps}`}</IonItem>
-                  <IonItem>{`Sets: ${workoutItem.Sets}`}</IonItem>
-                  <IonItem>{`Weight: ${workoutItem.Weight}`}</IonItem>
-                  <IonItem>{`Notes: ${workoutItem.Notes}`}</IonItem>
+                  <IonItem>{`Reps: ${workoutItem.reps}`}</IonItem>
+                  <IonItem>{`Sets: ${workoutItem.sets}`}</IonItem>
+                  <IonItem>{`Weight: ${workoutItem.weight}`}</IonItem>
+                  <IonItem>{`Notes: ${workoutItem.notes}`}</IonItem>
                 </IonList>
               </IonCardContent>
             </IonCard>

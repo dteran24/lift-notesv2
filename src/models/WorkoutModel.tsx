@@ -1,18 +1,19 @@
 export interface Exercise {
-    id: number;
-    WorkoutName: string;
-    Reps: number;
-    Sets: number;
-    Weight: number;
-    Notes: string;
-    Date: string; // You can use a specific Date type library if needed
+  date: string;
+  genre: string;
+  id: number;
+  name: string;
+  notes: string;
+  reps: number;
+  sets: number;
+  weight: number;
 }
 
 export interface WorkoutCategory {
-    Category: string;
-    Exercises: Exercise[];
+  genre: string;
+  workouts: Exercise[];
 }
 
 export interface WorkoutData {
-    Workouts: WorkoutCategory[];
+  Workouts: WorkoutCategory[];
 }

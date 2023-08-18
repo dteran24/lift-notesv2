@@ -7,23 +7,25 @@ import {
 } from "@ionic/react";
 
 import WorkoutCard from "./WorkoutCard";
-import { WorkoutData } from "../models/WorkoutModel";
+import { WorkoutCategory } from "../models/WorkoutModel";
 
 interface WorkoutListProps {
-  data: WorkoutData;
+  data: WorkoutCategory[];
 }
 
 const WorkoutList = (props: WorkoutListProps) => {
   const { data } = props;
+  console.log('data', data)
   return (
     <IonAccordionGroup>
-      {data.Workouts.map((workout, index) => {
+      {data.map((workout, index) => {
+        console.log('workout', workout)
         return (
           <IonAccordion value={index.toString()} key={index}>
             <IonItem slot="header" color="light">
-              <IonLabel>{workout.Category}</IonLabel>
+              <IonLabel>{workout.genre}</IonLabel>
             </IonItem>
-            {workout.Exercises.map((workoutItem) => {
+            {workout.workouts.map((workoutItem) => {
               return (
                 <div className="ion-padding" slot="content" key={workoutItem.id}>
                   <WorkoutCard workoutItem={workoutItem} />
