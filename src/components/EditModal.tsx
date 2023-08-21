@@ -14,6 +14,7 @@ import {
 
 import { Exercise } from "../models/WorkoutModel";
 import { useState } from "react";
+import { editWorkout } from "../services/ApiHandler";
 interface editCardModalProps {
   isOpen: boolean;
   setOpenModal: any;
@@ -24,8 +25,10 @@ const EditModal = (props: editCardModalProps) => {
   const { workoutItem, isOpen, setOpenModal } = props;
   const [workout, setWorkout] = useState<Exercise>(workoutItem);
 
-    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+  const submitHandler = () => {
+    editWorkout(workout.id, workout)
+      .catch((error) => console.error(error));
+    setOpenModal(false);
   };
   const handleInputChange = (
     event: CustomEvent<InputChangeEventDetail>,
@@ -34,7 +37,7 @@ const EditModal = (props: editCardModalProps) => {
     const { value } = event.detail;
     setWorkout((prevExercise) => ({
       ...prevExercise,
-      [propertyName]:
+      [propertyName.toLowerCase()]:
         propertyName === "Reps" ||
         propertyName === "Sets" ||
         propertyName === "Weight"
@@ -42,6 +45,7 @@ const EditModal = (props: editCardModalProps) => {
           : value,
     }));
   };
+  
 
   return (
     <IonModal isOpen={isOpen}>
@@ -52,20 +56,20 @@ const EditModal = (props: editCardModalProps) => {
           </IonButtons>
           <IonTitle>Welcome</IonTitle>
           <IonButtons slot="end">
-            <IonButton strong={true} type="submit">
+            <IonButton strong={true} onClick={() => submitHandler()}>
               Confirm
             </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <form onSubmit={submitHandler}>
+        <form>
           <IonItem>
             <IonLabel position="stacked">Reps</IonLabel>
             <IonInput
               type="number"
               placeholder="Reps"
-              value={workout.Reps}
+              value={workout.reps}
               onIonChange={(e) => handleInputChange(e, "Reps")}
             />
           </IonItem>
@@ -74,7 +78,7 @@ const EditModal = (props: editCardModalProps) => {
             <IonInput
               type="number"
               placeholder="Sets"
-              value={workout.Sets}
+              value={workout.sets}
               onIonChange={(e) => handleInputChange(e, "Sets")}
             />
           </IonItem>
@@ -83,7 +87,7 @@ const EditModal = (props: editCardModalProps) => {
             <IonInput
               type="number"
               placeholder="Weight"
-              value={workout.Weight}
+              value={workout.weight}
               onIonChange={(e) => handleInputChange(e, "Weight")}
             />
           </IonItem>
@@ -92,7 +96,7 @@ const EditModal = (props: editCardModalProps) => {
             <IonInput
               type="text"
               placeholder="Notes"
-              value={workout.Notes}
+              value={workout.notes}
               onIonChange={(e) => handleInputChange(e, "Notes")}
             />
           </IonItem>

@@ -1,3 +1,4 @@
+import { Exercise } from "../models/WorkoutModel";
 import { axiosProject } from "./AxiosInstance";
 
 
@@ -5,16 +6,14 @@ import { axiosProject } from "./AxiosInstance";
 export function getWorkoutList() {
     return axiosProject.get('');
 }
-// export function getForm(formID: string) {
-//     return axiosProject.get(`/${formID}`);
-// }
-// export function editForm(formID: string | null, formData: FormData) {
-//     return axiosProject.put(`/${formID}`, formData, {
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//     });
-// }
+
+export function editWorkout(id: string, workout: Exercise) {
+    return axiosProject.patch(`/${id}`, workout, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
 // export function submitForm(formData: FormData) {
 //     return axiosProject.post('', formData, {
 //         headers: {

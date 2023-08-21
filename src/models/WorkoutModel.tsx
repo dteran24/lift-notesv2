@@ -1,7 +1,6 @@
 export interface Exercise {
   date: string;
-  genre: string;
-  id: number;
+  id: string;
   name: string;
   notes: string;
   reps: number;
@@ -12,8 +11,4 @@ export interface Exercise {
 export interface WorkoutCategory {
   genre: string;
   workouts: Exercise[];
-}
-
-export interface WorkoutData {
-  Workouts: WorkoutCategory[];
 }

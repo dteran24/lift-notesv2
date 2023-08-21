@@ -15,11 +15,9 @@ interface WorkoutListProps {
 
 const WorkoutList = (props: WorkoutListProps) => {
   const { data } = props;
-  console.log('data', data)
   return (
     <IonAccordionGroup>
       {data.map((workout, index) => {
-        console.log('workout', workout)
         return (
           <IonAccordion value={index.toString()} key={index}>
             <IonItem slot="header" color="light">
