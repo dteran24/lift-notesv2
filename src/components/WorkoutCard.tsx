@@ -15,21 +15,34 @@ import EditModal from "./EditModal";
 import { createOutline, trash } from "ionicons/icons";
 import { Exercise } from "../models/WorkoutModel";
 import { useRef, useState } from "react";
-
+import { removeWokout } from "../services/ApiHandler";
+import { useWorkoutContext } from "../util/WorkoutContext";
 interface WorkoutCardProps {
   workoutItem: Exercise;
 }
 
 const WorkoutCard = (props: WorkoutCardProps) => {
   const { workoutItem } = props;
+  const {setIsDeleted } = useWorkoutContext();
   const [openModal, setOpenModal] = useState(false);
   const slidingRef = useRef<HTMLIonItemSlidingElement>(null);
 
-  const onclickHandler = () => {
+  const onClickModalHandler = () => {
     setOpenModal(true);
     if (slidingRef.current) {
       slidingRef.current.close();
     }
+  };
+  const onClickDeleteHandler = (id: string) => {
+    removeWokout(id)
+      .then((response) => {
+        console.log(response.data);
+        if (slidingRef.current) {
+          slidingRef.current.close();
+        }
+        setIsDeleted(true);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -37,12 +50,15 @@ const WorkoutCard = (props: WorkoutCardProps) => {
       <IonList lines="none">
         <IonItemSliding ref={slidingRef}>
           <IonItemOptions side="start">
-            <IonItemOption color="danger">
+            <IonItemOption
+              color="danger"
+              onClick={() => onClickDeleteHandler(workoutItem.id)}
+            >
               <IonIcon slot="icon-only" icon={trash}></IonIcon>
             </IonItemOption>
           </IonItemOptions>
           <IonItemOptions side="end">
-            <IonItemOption onClick={() => onclickHandler()}>
+            <IonItemOption onClick={() => onClickModalHandler()}>
               <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
             </IonItemOption>
           </IonItemOptions>
@@ -65,8 +81,6 @@ const WorkoutCard = (props: WorkoutCardProps) => {
         </IonItemSliding>
       </IonList>
       <EditModal
-        setOpenModal={setOpenModal}
-        isOpen={openModal}
         workoutItem={workoutItem}
       />
     </>

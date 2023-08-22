@@ -15,44 +15,50 @@ import {
 import { Exercise } from "../models/WorkoutModel";
 import { useState } from "react";
 import { editWorkout } from "../services/ApiHandler";
-interface editCardModalProps {
-  isOpen: boolean;
-  setOpenModal: any;
+import { useWorkoutContext } from "../util/WorkoutContext";
+
+interface EditCardModalProps {
   workoutItem: Exercise;
 }
 
-const EditModal = (props: editCardModalProps) => {
-  const { workoutItem, isOpen, setOpenModal } = props;
-  const [workout, setWorkout] = useState<Exercise>(workoutItem);
+const EditModal = (props: EditCardModalProps) => {
+  const { workoutItem } = props;
+  const { setIsSubmitted, editModal, setEditModal } = useWorkoutContext();
+
+  // Separate state variables for each input
+  const [reps, setReps] = useState<number>(workoutItem.reps);
+  const [sets, setSets] = useState<number>(workoutItem.sets);
+  const [weight, setWeight] = useState<number>(workoutItem.weight);
+  const [notes, setNotes] = useState<string>(workoutItem.notes);
 
   const submitHandler = () => {
-    editWorkout(workout.id, workout)
-      .catch((error) => console.error(error));
-    setOpenModal(false);
+    const updatedWorkout: Exercise = {
+      ...workoutItem,
+      reps: reps,
+      sets: sets,
+      weight: weight,
+      notes: notes,
+    };
+
+    editWorkout(updatedWorkout.id, updatedWorkout)
+      .then((response) => {
+        console.log("API Response:", response.data);
+        setIsSubmitted(true);
+        setEditModal(false);
+        
+      })
+      .catch((error) => {
+        console.error(error);
+        // Handle error if needed
+      });
   };
-  const handleInputChange = (
-    event: CustomEvent<InputChangeEventDetail>,
-    propertyName: string
-  ) => {
-    const { value } = event.detail;
-    setWorkout((prevExercise) => ({
-      ...prevExercise,
-      [propertyName.toLowerCase()]:
-        propertyName === "Reps" ||
-        propertyName === "Sets" ||
-        propertyName === "Weight"
-          ? parseInt(value || "0", 10)
-          : value,
-    }));
-  };
-  
 
   return (
-    <IonModal isOpen={isOpen}>
+    <IonModal isOpen={editModal}>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonButton onClick={() => setOpenModal(false)}>Cancel</IonButton>
+            <IonButton onClick={() => setEditModal(false)}>Cancel</IonButton>
           </IonButtons>
           <IonTitle>Welcome</IonTitle>
           <IonButtons slot="end">
@@ -67,37 +73,43 @@ const EditModal = (props: editCardModalProps) => {
           <IonItem>
             <IonLabel position="stacked">Reps</IonLabel>
             <IonInput
+              label=""
               type="number"
               placeholder="Reps"
-              value={workout.reps}
-              onIonChange={(e) => handleInputChange(e, "Reps")}
+              value={reps.toString()} // Convert to string for IonInput
+              onIonChange={(e) => setReps(parseInt(e.detail.value || "0", 10))}
             />
           </IonItem>
           <IonItem>
             <IonLabel position="stacked">Sets</IonLabel>
             <IonInput
+              label=""
               type="number"
               placeholder="Sets"
-              value={workout.sets}
-              onIonChange={(e) => handleInputChange(e, "Sets")}
+              value={sets.toString()} // Convert to string for IonInput
+              onIonChange={(e) => setSets(parseInt(e.detail.value || "0", 10))}
             />
           </IonItem>
           <IonItem>
             <IonLabel position="stacked">Weight</IonLabel>
             <IonInput
+              label=""
               type="number"
               placeholder="Weight"
-              value={workout.weight}
-              onIonChange={(e) => handleInputChange(e, "Weight")}
+              value={weight.toString()} // Convert to string for IonInput
+              onIonChange={(e) =>
+                setWeight(parseInt(e.detail.value || "0", 10))
+              }
             />
           </IonItem>
           <IonItem>
             <IonLabel position="stacked">Notes</IonLabel>
             <IonInput
+              label=""
               type="text"
               placeholder="Notes"
-              value={workout.notes}
-              onIonChange={(e) => handleInputChange(e, "Notes")}
+              value={notes}
+              onIonChange={(e) => setNotes(e.detail.value!)}
             />
           </IonItem>
         </form>
@@ -105,4 +117,5 @@ const EditModal = (props: editCardModalProps) => {
     </IonModal>
   );
 };
+
 export default EditModal;

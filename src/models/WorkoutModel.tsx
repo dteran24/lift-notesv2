@@ -1,4 +1,5 @@
 export interface Exercise {
+  genre: string;
   date: string;
   id: string;
   name: string;

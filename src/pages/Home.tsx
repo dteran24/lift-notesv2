@@ -1,27 +1,79 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonHeader,
+  IonIcon,
+  IonMenu,
+  IonMenuButton,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 import WorkoutList from "../components/WorkoutList";
-import mockData from '../MockData.json'
-import { useEffect, useState } from "react";
-import { getWorkoutList} from "../services/ApiHandler";
+
+import {
+  create,
+  ellipsisHorizontal,
+  ellipsisVertical,
+  helpCircle,
+  search,
+  personCircle,
+  star,
+  add,
+} from "ionicons/icons";
+import { useWorkoutContext } from "../util/WorkoutContext";
+import AddModal from "../components/AddModal";
 
 const Home = () => {
-  const [workoutList, setWorkoutList] = useState([])
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    getWorkoutList().then(response => setWorkoutList(response.data)).catch(error => console.error(error))
-    setLoading(false)
-  },[])
+  const { workoutListData, isLoading, setAddModal } = useWorkoutContext();
+  
+
   return (
-    <IonPage>
-      <IonHeader>
+    <>
+      <IonMenu side="end" contentId="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Menu Content</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          This is the menu content.
+        </IonContent>
+      </IonMenu>
+      <IonPage id="main-content">
         <IonToolbar>
+          <IonButtons slot="secondary">
+            <IonButton>
+              <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
+            </IonButton>
+            <IonButton>
+              <IonIcon slot="icon-only" icon={search}></IonIcon>
+            </IonButton>
+          </IonButtons>
+          <IonButtons slot="primary">
+            <IonMenuButton/>
+          </IonButtons>
           <IonTitle>Home</IonTitle>
         </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        {loading ? <div>Loading...</div>:  <WorkoutList data={workoutList} /> }
-      </IonContent>
-    </IonPage>
+        <IonContent>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <WorkoutList data={workoutListData} />
+          )}
+        </IonContent>
+      </IonPage>
+      <IonFab  slot="fixed" vertical="bottom" horizontal="end">
+      <IonFabButton onClick={() => setAddModal(true)}>
+        <IonIcon icon={add}></IonIcon>
+      </IonFabButton>
+      </IonFab>
+      <AddModal/>
+    </>
   );
 };
 export default Home;
