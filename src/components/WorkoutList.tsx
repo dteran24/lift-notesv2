@@ -5,7 +5,7 @@ import {
   IonLabel,
   IonCard,
 } from "@ionic/react";
-
+import "./workoutList.css"
 import WorkoutCard from "./WorkoutCard";
 import { WorkoutCategory } from "../models/WorkoutModel";
 
@@ -25,7 +25,7 @@ const WorkoutList = (props: WorkoutListProps) => {
             </IonItem>
             {workout.workouts.map((workoutItem) => {
               return (
-                <div className="ion-padding" slot="content" key={workoutItem.id}>
+                <div className="card-container" slot="content" key={workoutItem.id}>
                   <WorkoutCard workoutItem={workoutItem} />
                 </div>
               );

@@ -12,9 +12,10 @@ import {
   IonList,
 } from "@ionic/react";
 import EditModal from "./EditModal";
+import "./workoutCard.css"
 import { createOutline, trash } from "ionicons/icons";
 import { Exercise } from "../models/WorkoutModel";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { removeWokout } from "../services/ApiHandler";
 import { useWorkoutContext } from "../util/WorkoutContext";
 interface WorkoutCardProps {
@@ -23,12 +24,12 @@ interface WorkoutCardProps {
 
 const WorkoutCard = (props: WorkoutCardProps) => {
   const { workoutItem } = props;
-  const {setIsDeleted } = useWorkoutContext();
-  const [openModal, setOpenModal] = useState(false);
+  const { setIsDeleted, setEditModal } = useWorkoutContext();
+
   const slidingRef = useRef<HTMLIonItemSlidingElement>(null);
 
   const onClickModalHandler = () => {
-    setOpenModal(true);
+    setEditModal(true);
     if (slidingRef.current) {
       slidingRef.current.close();
     }
@@ -45,9 +46,10 @@ const WorkoutCard = (props: WorkoutCardProps) => {
       .catch((err) => console.log(err));
   };
 
+
   return (
     <>
-      <IonList lines="none">
+      <IonList lines="none" className="sliding-options">
         <IonItemSliding ref={slidingRef}>
           <IonItemOptions side="start">
             <IonItemOption
@@ -63,13 +65,13 @@ const WorkoutCard = (props: WorkoutCardProps) => {
             </IonItemOption>
           </IonItemOptions>
           <IonItem>
-            <IonCard>
+            <IonCard className="card">
               <IonCardHeader>
                 <IonCardTitle>{workoutItem.name}</IonCardTitle>
                 <IonCardSubtitle>{`Last Updated: ${workoutItem.date}`}</IonCardSubtitle>
               </IonCardHeader>
-              <IonCardContent>
-                <IonList className="ion-padding-bottom">
+              <IonCardContent className="card-content">
+                <IonList className="ion-list">
                   <IonItem>{`Reps: ${workoutItem.reps}`}</IonItem>
                   <IonItem>{`Sets: ${workoutItem.sets}`}</IonItem>
                   <IonItem>{`Weight: ${workoutItem.weight}`}</IonItem>
@@ -80,9 +82,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
           </IonItem>
         </IonItemSliding>
       </IonList>
-      <EditModal
-        workoutItem={workoutItem}
-      />
+      <EditModal workoutItem={workoutItem}/>
     </>
   );
 };

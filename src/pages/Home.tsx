@@ -7,6 +7,7 @@ import {
   IonFabButton,
   IonHeader,
   IonIcon,
+  IonLoading,
   IonMenu,
   IonMenuButton,
   IonPage,
@@ -61,7 +62,7 @@ const Home = () => {
         </IonToolbar>
         <IonContent>
           {isLoading ? (
-            <div>Loading...</div>
+            <IonLoading message="Loading workouts..." />
           ) : (
             <WorkoutList data={workoutListData} />
           )}

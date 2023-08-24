@@ -33,6 +33,7 @@ const AddModal = () => {
   };
   const handleInputChange = (event: CustomEvent, key: keyof Exercise) => {
     const newValue = event.detail.value;
+    console.log(key, newValue);
     setWorkout((prevWorkout) => ({
       ...prevWorkout!,
       [key]: newValue,
@@ -74,7 +75,7 @@ const AddModal = () => {
               type="text"
               placeholder="Name"
               value={workout?.name} // Convert to string for IonInput
-              onIonChange={(e) => handleInputChange(e, "name")}
+              onIonInput={(e) => handleInputChange(e, "name")}
             />
           </IonItem>
           <IonItem>
@@ -84,7 +85,7 @@ const AddModal = () => {
               type="number"
               placeholder="Reps"
               value={workout?.reps} // Convert to string for IonInput
-              onIonChange={(e) => handleInputChange(e, "reps")}
+              onIonInput={(e) => handleInputChange(e, "reps")}
             />
           </IonItem>
           <IonItem>
@@ -94,7 +95,7 @@ const AddModal = () => {
               type="number"
               placeholder="Sets"
               value={workout?.sets} // Convert to string for IonInput
-              onIonChange={(e) => handleInputChange(e, "sets")}
+              onIonInput={(e) => handleInputChange(e, "sets")}
             />
           </IonItem>
           <IonItem>
@@ -104,7 +105,7 @@ const AddModal = () => {
               type="number"
               placeholder="Weight"
               value={workout?.weight} // Convert to string for IonInput
-              onIonChange={(e) => handleInputChange(e, "weight")}
+              onIonInput={(e) => handleInputChange(e, "weight")}
             />
           </IonItem>
           <IonItem>
@@ -114,7 +115,7 @@ const AddModal = () => {
               type="text"
               placeholder="Notes"
               value={workout?.notes}
-              onIonChange={(e) => handleInputChange(e, "notes")}
+              onIonInput={(e) => handleInputChange(e, "notes")}
             />
           </IonItem>
         </form>
