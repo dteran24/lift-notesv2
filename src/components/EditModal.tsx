@@ -18,48 +18,14 @@ import { editWorkout } from "../services/ApiHandler";
 import { useWorkoutContext } from "../util/WorkoutContext";
 
 interface EditCardModalProps {
-  workoutItem: Exercise | null;
+  workoutItem: Exercise;
 }
 
 const EditModal = (props: EditCardModalProps) => {
   const { setIsSubmitted, editModal, setEditModal } = useWorkoutContext();
-  const { workoutItem: initialWorkoutItem } = props;
-
-  // Use state to track the current workoutItem being edited
-  const [workoutItem, setWorkoutItem] = useState<Exercise | null>(
-    initialWorkoutItem
-  );
-
-  useEffect(() => {
-    setWorkoutItem(initialWorkoutItem);
-    setReps(initialWorkoutItem?.reps || 0);
-    setSets(initialWorkoutItem?.sets || 0);
-    setWeight(initialWorkoutItem?.weight || 0);
-    setNotes(initialWorkoutItem?.notes || "");
-  }, [initialWorkoutItem]);
-  // Separate state variables for each input
-  const [name, setName] = useState<string>(workoutItem?.name || "");
-  const [reps, setReps] = useState<number>(workoutItem?.reps || 0);
-  const [sets, setSets] = useState<number>(workoutItem?.sets || 0);
-  const [weight, setWeight] = useState<number>(workoutItem?.weight || 0);
-  const [notes, setNotes] = useState<string>(workoutItem?.notes || "");
-
+  const { workoutItem } = props;
+  const [updatedWorkout, setUpdatedWorkout] = useState<Exercise>(workoutItem);
   const submitHandler = () => {
-    console.log(workoutItem)
-    if (!workoutItem) {
-      // Handle the case when workoutItem is null (initial state)
-      return;
-    }
-    const updatedWorkout: Exercise = {
-      ...workoutItem,
-      name: name,
-      reps: reps,
-      sets: sets,
-      weight: weight,
-      notes: notes,
-    };
-    console.log("updated: ", updatedWorkout);
-    
     editWorkout(updatedWorkout.id, updatedWorkout)
       .then((response) => {
         console.log(response.data);
@@ -71,12 +37,11 @@ const EditModal = (props: EditCardModalProps) => {
       .finally(() => {
         setIsSubmitted(true);
         setEditModal(false);
-        setReps(0);
-        setSets(0);
-        setWeight(0);
-        setNotes("");
       });
   };
+  useEffect(() => {
+    setUpdatedWorkout(workoutItem)
+  },[workoutItem])
 
   return (
     <IonModal isOpen={editModal}>
@@ -101,8 +66,13 @@ const EditModal = (props: EditCardModalProps) => {
               aria-label="name"
               type="text"
               placeholder="Name"
-              value={name} // Convert to string for IonInput
-              onIonInput={(e) => setName(e.detail.value || "")}
+              value={updatedWorkout.name} // Convert to string for IonInput
+              onIonInput={(e) =>
+                setUpdatedWorkout({
+                  ...updatedWorkout,
+                  name: e.detail.value || "",
+                })
+              }
             />
           </IonItem>
           <IonItem>
@@ -111,8 +81,13 @@ const EditModal = (props: EditCardModalProps) => {
               aria-label="reps"
               type="number"
               placeholder="Reps"
-              value={reps} // Convert to string for IonInput
-              onIonChange={(e) => setReps(parseInt(e.detail.value || "0", 10))}
+              value={updatedWorkout.reps} // Convert to string for IonInput
+              onIonInput={(e) =>
+                setUpdatedWorkout({
+                  ...updatedWorkout,
+                  reps: Number(e.detail.value || 0),
+                })
+              }
             />
           </IonItem>
           <IonItem>
@@ -121,8 +96,13 @@ const EditModal = (props: EditCardModalProps) => {
               aria-label="sets"
               type="number"
               placeholder="Sets"
-              value={sets} // Convert to string for IonInput
-              onIonInput={(e) => setSets(parseInt(e.detail.value || "0", 10))}
+              value={updatedWorkout.sets} // Convert to string for IonInput
+              onIonInput={(e) =>
+                setUpdatedWorkout({
+                  ...updatedWorkout,
+                  sets: Number(e.detail.value || 0),
+                })
+              }
             />
           </IonItem>
           <IonItem>
@@ -131,9 +111,12 @@ const EditModal = (props: EditCardModalProps) => {
               aria-label="weight"
               type="number"
               placeholder="Weight"
-              value={weight} // Convert to string for IonInput
+              value={updatedWorkout.weight} // Convert to string for IonInput
               onIonInput={(e) =>
-                setWeight(parseInt(e.detail.value || "0", 10))
+                setUpdatedWorkout({
+                  ...updatedWorkout,
+                  weight: Number(e.detail.value || 0),
+                })
               }
             />
           </IonItem>
@@ -143,8 +126,13 @@ const EditModal = (props: EditCardModalProps) => {
               aria-label="notes"
               type="text"
               placeholder="Notes"
-              value={notes}
-              onIonInput={(e) => setNotes(e.detail.value || "")}
+              value={updatedWorkout.notes}
+              onIonInput={(e) =>
+                setUpdatedWorkout({
+                  ...updatedWorkout,
+                  notes: e.detail.value || "",
+                })
+              }
             />
           </IonItem>
         </form>

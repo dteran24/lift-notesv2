@@ -12,23 +12,25 @@ import {
   IonList,
 } from "@ionic/react";
 import EditModal from "./EditModal";
-import "./workoutCard.css"
+import "./workoutCard.css";
 import { createOutline, trash } from "ionicons/icons";
 import { Exercise } from "../models/WorkoutModel";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { removeWokout } from "../services/ApiHandler";
 import { useWorkoutContext } from "../util/WorkoutContext";
 interface WorkoutCardProps {
   workoutItem: Exercise;
+  setSelectedCard: Dispatch<SetStateAction<Exercise>>;
 }
 
 const WorkoutCard = (props: WorkoutCardProps) => {
-  const { workoutItem } = props;
+  const { workoutItem, setSelectedCard } = props;
   const { setIsDeleted, setEditModal } = useWorkoutContext();
 
   const slidingRef = useRef<HTMLIonItemSlidingElement>(null);
 
-  const onClickModalHandler = () => {
+  const onClickModalHandler = (workout: Exercise) => {
+    setSelectedCard(workout);
     setEditModal(true);
     if (slidingRef.current) {
       slidingRef.current.close();
@@ -46,7 +48,6 @@ const WorkoutCard = (props: WorkoutCardProps) => {
       .catch((err) => console.log(err));
   };
 
-
   return (
     <>
       <IonList lines="none" className="sliding-options">
@@ -60,7 +61,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
             </IonItemOption>
           </IonItemOptions>
           <IonItemOptions side="end">
-            <IonItemOption onClick={() => onClickModalHandler()}>
+            <IonItemOption onClick={() => onClickModalHandler(workoutItem)}>
               <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
             </IonItemOption>
           </IonItemOptions>
@@ -82,7 +83,6 @@ const WorkoutCard = (props: WorkoutCardProps) => {
           </IonItem>
         </IonItemSliding>
       </IonList>
-      <EditModal workoutItem={workoutItem}/>
     </>
   );
 };
