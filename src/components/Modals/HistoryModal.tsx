@@ -13,10 +13,8 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { useWorkoutContext } from "../../util/WorkoutContext";
-import { useState } from "react";
 import { Exercise } from "../../models/WorkoutModel";
-import { addWorkout } from "../../services/ApiHandler";
-import { key } from "ionicons/icons";
+import "./HistoryModal.css"
 interface HistoryCardModalProps {
   workoutItem: Exercise;
 }
@@ -38,11 +36,11 @@ const HistoryModal = (props: HistoryCardModalProps) => {
       </IonHeader>
       <IonContent className="ion-padding">
         {historyList.length > 0 ? (
-          <table>
+          <table className="table">
             <thead>
               <tr>
                 {Object.keys(historyList[0]).map((label, index) => {
-                  return <th key={index}>{label}</th>;
+                  return <th className="table_header" key={index}>{label.toUpperCase()}</th>;
                 })}
               </tr>
             </thead>

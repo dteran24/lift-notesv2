@@ -32,11 +32,10 @@ import SideMenu from "../components/SideMenu";
 
 const Home = () => {
   const { workoutListData, isLoading, setAddModal } = useWorkoutContext();
-  
 
   return (
     <>
-    <SideMenu/>
+      <SideMenu />
       <IonPage id="main-content">
         <IonToolbar>
           <IonButtons slot="secondary">
@@ -48,7 +47,7 @@ const Home = () => {
             </IonButton>
           </IonButtons>
           <IonButtons slot="primary">
-            <IonMenuButton/>
+            <IonMenuButton />
           </IonButtons>
           <IonTitle>Home</IonTitle>
         </IonToolbar>
@@ -59,13 +58,13 @@ const Home = () => {
             <WorkoutList data={workoutListData} />
           )}
         </IonContent>
+        <IonFab slot="fixed" vertical="bottom" horizontal="end">
+          <IonFabButton onClick={() => setAddModal(true)}>
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>
+        </IonFab>
+        <AddModal />
       </IonPage>
-      <IonFab  slot="fixed" vertical="bottom" horizontal="end">
-      <IonFabButton onClick={() => setAddModal(true)}>
-        <IonIcon icon={add}></IonIcon>
-      </IonFabButton>
-      </IonFab>
-      <AddModal/>
     </>
   );
 };
