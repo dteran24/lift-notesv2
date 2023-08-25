@@ -20,6 +20,8 @@ interface WorkoutContextType {
   setAddModal: Dispatch<SetStateAction<boolean>>;
   editModal: boolean;
   setEditModal: Dispatch<SetStateAction<boolean>>;
+  historyModal: boolean;
+  setHistoryModal: Dispatch<SetStateAction<boolean>>;
   isLoading: boolean;
 }
 
@@ -47,6 +49,7 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
   const [isAdded, setIsAdded] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [addModal, setAddModal] = useState(false);
+  const [historyModal, setHistoryModal] = useState(false);
 
   // Fetch initial data from the API
   useEffect(() => {
@@ -77,6 +80,8 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
         setAddModal,
         editModal,
         setEditModal,
+        historyModal,
+        setHistoryModal
       }}
     >
       {children}

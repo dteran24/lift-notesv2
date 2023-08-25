@@ -27,7 +27,8 @@ import {
   add,
 } from "ionicons/icons";
 import { useWorkoutContext } from "../util/WorkoutContext";
-import AddModal from "../components/AddModal";
+import AddModal from "../components/Modals/AddModal";
+import SideMenu from "../components/SideMenu";
 
 const Home = () => {
   const { workoutListData, isLoading, setAddModal } = useWorkoutContext();
@@ -35,16 +36,7 @@ const Home = () => {
 
   return (
     <>
-      <IonMenu side="end" contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Menu Content</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          This is the menu content.
-        </IonContent>
-      </IonMenu>
+    <SideMenu/>
       <IonPage id="main-content">
         <IonToolbar>
           <IonButtons slot="secondary">

@@ -12,10 +12,10 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { useWorkoutContext } from "../util/WorkoutContext";
+import { useWorkoutContext } from "../../util/WorkoutContext";
 import { useState } from "react";
-import { Exercise } from "../models/WorkoutModel";
-import { addWorkout } from "../services/ApiHandler";
+import { Exercise } from "../../models/WorkoutModel";
+import { addWorkout } from "../../services/ApiHandler";
 import { key } from "ionicons/icons";
 
 const AddModal = () => {

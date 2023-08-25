@@ -12,10 +12,10 @@ import {
   IonToolbar,
 } from "@ionic/react";
 
-import { Exercise } from "../models/WorkoutModel";
+import { Exercise } from "../../models/WorkoutModel";
 import { useEffect, useState } from "react";
-import { editWorkout } from "../services/ApiHandler";
-import { useWorkoutContext } from "../util/WorkoutContext";
+import { editWorkout } from "../../services/ApiHandler";
+import { useWorkoutContext } from "../../util/WorkoutContext";
 
 interface EditCardModalProps {
   workoutItem: Exercise;
@@ -40,8 +40,8 @@ const EditModal = (props: EditCardModalProps) => {
       });
   };
   useEffect(() => {
-    setUpdatedWorkout(workoutItem)
-  },[workoutItem])
+    setUpdatedWorkout(workoutItem);
+  }, [workoutItem]);
 
   return (
     <IonModal isOpen={editModal}>
