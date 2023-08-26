@@ -42,9 +42,6 @@ const Home = () => {
             <IonButton>
               <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
             </IonButton>
-            <IonButton>
-              <IonIcon slot="icon-only" icon={search}></IonIcon>
-            </IonButton>
           </IonButtons>
           <IonButtons slot="primary">
             <IonMenuButton />
