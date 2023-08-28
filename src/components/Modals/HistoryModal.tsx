@@ -22,8 +22,7 @@ const HistoryModal = (props: HistoryCardModalProps) => {
   const { workoutItem } = props;
   const { historyModal, setHistoryModal } = useWorkoutContext();
 
-  const historyList = workoutItem.history;
-  console.log(historyList);
+  const historyList = workoutItem.history || [];
   return (
     <IonModal isOpen={historyModal}>
       <IonHeader>

@@ -23,19 +23,19 @@ const SideMenu = () => {
       <IonContent className="ion-padding">
         <IonList lines="inset">
           <IonMenuToggle>
-            <IonItem routerLink="/history" routerDirection="forward">
+            <IonItem routerLink="/history" routerDirection="forward" disabled>
               <IonIcon icon={archive} slot="start" />
               View History
             </IonItem>
           </IonMenuToggle>
           <IonMenuToggle>
-            <IonItem routerLink="/history" routerDirection="forward">
+            <IonItem routerDirection="forward" disabled>
               <IonIcon icon={swapVertical} slot="start" />
               Organize
             </IonItem>
           </IonMenuToggle>
           <IonMenuToggle>
-            <IonItem routerLink="/history" routerDirection="forward">
+            <IonItem routerDirection="forward" disabled>
               <IonIcon icon={informationCircle} slot="start" />
               About
             </IonItem>

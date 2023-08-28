@@ -44,7 +44,8 @@ const WorkoutCard = (props: WorkoutCardProps) => {
 
     }
   }
-    const onClickDeleteHandler = (id: string) => {
+  const onClickDeleteHandler = (id: string | undefined) => {
+    if (id !== undefined) {
       removeWokout(id)
         .then((response) => {
           console.log(response.data);
@@ -54,6 +55,8 @@ const WorkoutCard = (props: WorkoutCardProps) => {
           setIsDeleted(true);
         })
         .catch((err) => console.log(err));
+    }
+    console.log("id is undefined")
     };
 
     return (

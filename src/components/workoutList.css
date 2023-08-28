@@ -1,6 +1,15 @@
 .card-container{
     display: flex;
-    
     align-items: center;
     width: 100%;
+}
+.no-data-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+.no-data-container span{
+    margin: 1rem;
 }

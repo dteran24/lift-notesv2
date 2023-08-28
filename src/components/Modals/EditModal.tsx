@@ -16,6 +16,7 @@ import { Exercise } from "../../models/WorkoutModel";
 import { useEffect, useState } from "react";
 import { editWorkout } from "../../services/ApiHandler";
 import { useWorkoutContext } from "../../util/WorkoutContext";
+import Form from "../Form";
 
 interface EditCardModalProps {
   workoutItem: Exercise;
@@ -25,30 +26,36 @@ const EditModal = (props: EditCardModalProps) => {
   const { setIsSubmitted, editModal, setEditModal } = useWorkoutContext();
   const { workoutItem } = props;
   const [updatedWorkout, setUpdatedWorkout] = useState<Exercise>(workoutItem);
+
   const submitHandler = () => {
-    editWorkout(updatedWorkout.id, updatedWorkout)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-        // Handle error if needed
-      })
-      .finally(() => {
-        setIsSubmitted(true);
-        setEditModal(false);
-      });
+    if (updatedWorkout.id) {
+      editWorkout(updatedWorkout.id, updatedWorkout)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setIsSubmitted(true);
+          setEditModal(false);
+        });
+    }
+  };
+  const cancelHandler = () => {
+    setEditModal(false);
+    setUpdatedWorkout(workoutItem);
   };
   useEffect(() => {
     setUpdatedWorkout(workoutItem);
   }, [workoutItem]);
-
+  console.log("updated", updatedWorkout);
   return (
     <IonModal isOpen={editModal}>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonButton onClick={() => setEditModal(false)}>Cancel</IonButton>
+            <IonButton onClick={() => cancelHandler()}>Cancel</IonButton>
           </IonButtons>
           <IonTitle>Welcome</IonTitle>
           <IonButtons slot="end">
@@ -59,83 +66,7 @@ const EditModal = (props: EditCardModalProps) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <form>
-          <IonItem>
-            <IonLabel position="stacked">Name</IonLabel>
-            <IonInput
-              aria-label="name"
-              type="text"
-              placeholder="Name"
-              value={updatedWorkout.name} // Convert to string for IonInput
-              onIonInput={(e) =>
-                setUpdatedWorkout({
-                  ...updatedWorkout,
-                  name: e.detail.value || "",
-                })
-              }
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Reps</IonLabel>
-            <IonInput
-              aria-label="reps"
-              type="number"
-              placeholder="Reps"
-              value={updatedWorkout.reps} // Convert to string for IonInput
-              onIonInput={(e) =>
-                setUpdatedWorkout({
-                  ...updatedWorkout,
-                  reps: Number(e.detail.value || 0),
-                })
-              }
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Sets</IonLabel>
-            <IonInput
-              aria-label="sets"
-              type="number"
-              placeholder="Sets"
-              value={updatedWorkout.sets} // Convert to string for IonInput
-              onIonInput={(e) =>
-                setUpdatedWorkout({
-                  ...updatedWorkout,
-                  sets: Number(e.detail.value || 0),
-                })
-              }
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Weight</IonLabel>
-            <IonInput
-              aria-label="weight"
-              type="number"
-              placeholder="Weight"
-              value={updatedWorkout.weight} // Convert to string for IonInput
-              onIonInput={(e) =>
-                setUpdatedWorkout({
-                  ...updatedWorkout,
-                  weight: Number(e.detail.value || 0),
-                })
-              }
-            />
-          </IonItem>
-          <IonItem>
-            <IonLabel position="stacked">Notes</IonLabel>
-            <IonInput
-              aria-label="notes"
-              type="text"
-              placeholder="Notes"
-              value={updatedWorkout.notes}
-              onIonInput={(e) =>
-                setUpdatedWorkout({
-                  ...updatedWorkout,
-                  notes: e.detail.value || "",
-                })
-              }
-            />
-          </IonItem>
-        </form>
+        <Form workout={updatedWorkout} setWorkout={setUpdatedWorkout} />
       </IonContent>
     </IonModal>
   );

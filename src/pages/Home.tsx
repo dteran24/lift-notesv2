@@ -17,13 +17,7 @@ import {
 import WorkoutList from "../components/WorkoutList";
 
 import {
-  create,
-  ellipsisHorizontal,
-  ellipsisVertical,
-  helpCircle,
-  search,
   personCircle,
-  star,
   add,
 } from "ionicons/icons";
 import { useWorkoutContext } from "../util/WorkoutContext";
@@ -39,7 +33,7 @@ const Home = () => {
       <IonPage id="main-content">
         <IonToolbar>
           <IonButtons slot="secondary">
-            <IonButton>
+            <IonButton disabled>
               <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
             </IonButton>
           </IonButtons>

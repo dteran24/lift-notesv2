@@ -4,12 +4,14 @@ import {
   IonItem,
   IonLabel,
   IonCard,
+  IonIcon,
 } from "@ionic/react";
+import { sadOutline } from "ionicons/icons";
 import "./workoutList.css";
 import WorkoutCard from "./WorkoutCard";
 import { Exercise, WorkoutCategory } from "../models/WorkoutModel";
 import EditModal from "./Modals/EditModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import HistoryModal from "./Modals/HistoryModal";
 
 interface WorkoutListProps {
@@ -18,17 +20,7 @@ interface WorkoutListProps {
 
 const WorkoutList = (props: WorkoutListProps) => {
   const { data } = props;
-  const [selectedCard, setSelectedCard] = useState<Exercise>({
-    id: "",
-    name: "",
-    genre: "",
-    notes: "",
-    date: "",
-    weight: 0,
-    sets: 0,
-    reps: 0,
-    history:[],
-  });
+  const [selectedCard, setSelectedCard] = useState<Exercise>({});
 
   return (
     <IonAccordionGroup>
@@ -54,7 +46,10 @@ const WorkoutList = (props: WorkoutListProps) => {
                 );
               })
             ) : (
-              <div slot="content">No Data!!</div>
+              <div className="no-data-container" slot="content">
+                <IonIcon icon={sadOutline} size="large" aria-label="sad" />
+                <span>No Workouts here!</span>
+              </div>
             )}
           </IonAccordion>
         );
