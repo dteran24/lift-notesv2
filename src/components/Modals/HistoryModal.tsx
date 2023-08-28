@@ -3,6 +3,7 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonInput,
   IonItem,
   IonLabel,
@@ -14,7 +15,8 @@ import {
 } from "@ionic/react";
 import { useWorkoutContext } from "../../util/WorkoutContext";
 import { Exercise } from "../../models/WorkoutModel";
-import "./HistoryModal.css"
+import "./HistoryModal.css";
+import { sadOutline } from "ionicons/icons";
 interface HistoryCardModalProps {
   workoutItem: Exercise;
 }
@@ -39,13 +41,17 @@ const HistoryModal = (props: HistoryCardModalProps) => {
             <thead>
               <tr>
                 {Object.keys(historyList[0]).map((label, index) => {
-                  return <th className="table_header" key={index}>{label.toUpperCase()}</th>;
+                  return (
+                    <th className="table-header" key={index}>
+                      {label.toUpperCase()}
+                    </th>
+                  );
                 })}
               </tr>
             </thead>
             <tbody>
               {historyList.map((item, rowIndex) => (
-                <tr key={rowIndex}>
+                <tr className="table-row" key={rowIndex}>
                   {Object.values(item).map((value, columnIndex) => (
                     <td key={columnIndex}>{value}</td>
                   ))}
@@ -54,7 +60,10 @@ const HistoryModal = (props: HistoryCardModalProps) => {
             </tbody>
           </table>
         ) : (
-          <p>No history available.</p>
+          <div className="no-data-container">
+            <IonIcon icon={sadOutline} size="large" />
+            No History!
+          </div>
         )}
       </IonContent>
     </IonModal>

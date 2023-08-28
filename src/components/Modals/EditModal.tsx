@@ -10,12 +10,14 @@ import {
   IonModal,
   IonTitle,
   IonToolbar,
+  useIonToast,
 } from "@ionic/react";
 
 import { Exercise } from "../../models/WorkoutModel";
 import { useEffect, useState } from "react";
 import { editWorkout } from "../../services/ApiHandler";
 import { useWorkoutContext } from "../../util/WorkoutContext";
+import { checkmarkCircleOutline } from "ionicons/icons";
 import Form from "../Form";
 
 interface EditCardModalProps {
@@ -39,6 +41,7 @@ const EditModal = (props: EditCardModalProps) => {
         .finally(() => {
           setIsSubmitted(true);
           setEditModal(false);
+          presentToast("bottom");
         });
     }
   };
@@ -46,10 +49,22 @@ const EditModal = (props: EditCardModalProps) => {
     setEditModal(false);
     setUpdatedWorkout(workoutItem);
   };
+  const [present] = useIonToast();
+  const presentToast = (position: "top" | "middle" | "bottom") => {
+    present({
+      message: "Workout Updated!",
+      duration: 1500,
+      position: position,
+      icon: checkmarkCircleOutline,
+      color: "success",
+      animated: true,
+    });
+  };
+
   useEffect(() => {
     setUpdatedWorkout(workoutItem);
   }, [workoutItem]);
-  console.log("updated", updatedWorkout);
+
   return (
     <IonModal isOpen={editModal}>
       <IonHeader>

@@ -8,7 +8,6 @@ import {
 import { Dispatch, SetStateAction } from "react";
 import { Exercise } from "../models/WorkoutModel";
 import { useWorkoutContext } from "../util/WorkoutContext";
-import "./Form.css";
 interface FormProps {
   workout: Exercise;
   setWorkout: Dispatch<SetStateAction<Exercise>>;
@@ -98,7 +97,7 @@ const Form = (props: FormProps) => {
           value={workout.notes}
           onIonInput={(e) => handleInputChange(e, "notes")}
           counter={true}
-          maxlength={20}   
+          maxlength={10}   
         />
       </IonItem>
     </form>
