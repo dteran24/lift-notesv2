@@ -29,12 +29,19 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { IonReactRouter } from '@ionic/react-router';
+import Profile from './pages/Profile';
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <Home/>
+    <IonReactRouter>
+      <IonRouterOutlet>
+        <Route path="" component={Home} />
+        <Route path="/profile" component={Profile}/>
+      </IonRouterOutlet>
+    </IonReactRouter>
   </IonApp>
 );
 
