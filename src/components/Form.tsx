@@ -8,6 +8,7 @@ import {
 import { Dispatch, SetStateAction } from "react";
 import { Exercise } from "../models/WorkoutModel";
 import { useWorkoutContext } from "../util/WorkoutContext";
+import "./Form.css"
 interface FormProps {
   workout: Exercise;
   setWorkout: Dispatch<SetStateAction<Exercise>>;
@@ -26,7 +27,7 @@ const Form = (props: FormProps) => {
   return (
     <form>
       {addModal ? (
-        <IonItem>
+        <IonItem lines="none">
           <IonSelect
             aria-label="genre"
             placeholder="Select genre"
@@ -49,20 +50,8 @@ const Form = (props: FormProps) => {
           label="Name"
           type="text"
           labelPlacement="floating"
-          fill="solid"
           value={workout.name}
           onIonInput={(e) => handleInputChange(e, "name")}
-        />
-      </IonItem>
-      <IonItem>
-        <IonInput
-          aria-label="reps"
-          label="Reps"
-          type="number"
-          labelPlacement="floating"
-          fill="solid"
-          value={workout.reps}
-          onIonInput={(e) => handleInputChange(e, "reps")}
         />
       </IonItem>
       <IonItem>
@@ -71,33 +60,41 @@ const Form = (props: FormProps) => {
           label="Sets"
           type="number"
           labelPlacement="floating"
-          fill="solid"
           value={workout.sets}
           onIonInput={(e) => handleInputChange(e, "sets")}
         />
       </IonItem>
       <IonItem>
         <IonInput
+          aria-label="reps"
+          label="Reps"
+          type="number"
+          labelPlacement="floating"
+          value={workout.reps}
+          onIonInput={(e) => handleInputChange(e, "reps")}
+        />
+      </IonItem>
+
+      <IonItem>
+        <IonInput
           aria-label="weight"
           label="Weight"
           type="number"
           labelPlacement="floating"
-          fill="solid"
           value={workout.weight}
           onIonInput={(e) => handleInputChange(e, "weight")}
         />
       </IonItem>
-      <IonItem>
+      <IonItem lines="none">
         <IonInput
           aria-label="notes"
           label="Notes"
           type="text"
           labelPlacement="floating"
-          fill="solid"
           value={workout.notes}
           onIonInput={(e) => handleInputChange(e, "notes")}
           counter={true}
-          maxlength={10}   
+          maxlength={10}
         />
       </IonItem>
     </form>

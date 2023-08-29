@@ -72,7 +72,7 @@ const EditModal = (props: EditCardModalProps) => {
           <IonButtons slot="start">
             <IonButton onClick={() => cancelHandler()}>Cancel</IonButton>
           </IonButtons>
-          <IonTitle>Welcome</IonTitle>
+          <IonTitle className="ion-text-center">Edit Workout</IonTitle>
           <IonButtons slot="end">
             <IonButton strong={true} onClick={() => submitHandler()}>
               Confirm

@@ -15,7 +15,6 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import WorkoutList from "../components/WorkoutList";
-
 import {
   personCircle,
   add,
@@ -33,7 +32,7 @@ const Home = () => {
       <IonPage id="main-content">
         <IonToolbar>
           <IonButtons slot="secondary">
-            <IonButton disabled>
+            <IonButton routerLink="/profile" routerDirection="forward">
               <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
             </IonButton>
           </IonButtons>

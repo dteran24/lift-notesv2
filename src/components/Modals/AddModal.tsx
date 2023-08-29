@@ -76,7 +76,8 @@ const AddModal = () => {
       workout.name !== undefined &&
       workout.reps !== undefined &&
       workout.weight !== undefined &&
-      workout.sets !== undefined
+      workout.sets !== undefined &&
+      workout.genre !== undefined
     );
   }
   useEffect(() => {
@@ -89,9 +90,9 @@ const AddModal = () => {
           <IonButtons slot="start">
             <IonButton onClick={() => cancelHandler()}>Cancel</IonButton>
           </IonButtons>
-          <IonTitle>Add</IonTitle>
+          <IonTitle className="ion-text-center">Add Workout</IonTitle>
           <IonButtons slot="end">
-            <IonButton strong={true} onClick={() => submitHandler()}>
+            <IonButton strong={true} onClick={() => submitHandler()} color="primary">
               Confirm
             </IonButton>
           </IonButtons>

@@ -1,4 +1,5 @@
 import {
+  IonBackButton,
   IonButton,
   IonButtons,
   IonContent,
@@ -16,7 +17,7 @@ import {
 import { useWorkoutContext } from "../../util/WorkoutContext";
 import { Exercise } from "../../models/WorkoutModel";
 import "./HistoryModal.css";
-import { sadOutline } from "ionicons/icons";
+import { sadOutline, chevronBackOutline } from "ionicons/icons";
 interface HistoryCardModalProps {
   workoutItem: Exercise;
 }
@@ -28,9 +29,11 @@ const HistoryModal = (props: HistoryCardModalProps) => {
   return (
     <IonModal isOpen={historyModal}>
       <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="end">
-            <IonButton onClick={() => setHistoryModal(false)}>Close</IonButton>
+        <IonToolbar mode="ios">
+          <IonButtons slot="start">
+            <IonButton className="ios-back-bttn" onClick={() => setHistoryModal(false)} fill="clear">Back
+              <IonIcon slot="start" icon={chevronBackOutline} />
+              </IonButton>
           </IonButtons>
           <IonTitle class="ion-text-center">History</IonTitle>
         </IonToolbar>
