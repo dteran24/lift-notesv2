@@ -1,0 +1,8 @@
+
+.buttonGroup{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 40%;
+    padding: 0 2rem;
+}

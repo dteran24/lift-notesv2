@@ -1,0 +1,20 @@
+.center {
+  margin-top: 40%;
+  padding: 0 1rem;
+}
+.buttonGroup {
+  margin-top: 3rem;
+}
+.pageHeight {
+  max-height: 100vh;
+}
+.message {
+  padding: 0 1rem;
+  margin-top: .5rem;
+}
+.error {
+  color: rgb(213, 16, 16);
+}
+.success {
+  color: green;
+}

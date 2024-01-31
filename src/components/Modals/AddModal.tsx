@@ -16,7 +16,7 @@ import {
 import { useWorkoutContext } from "../../util/WorkoutContext";
 import { useEffect, useState } from "react";
 import { Exercise } from "../../models/WorkoutModel";
-import { addWorkout } from "../../services/ApiHandler";
+// import { addWorkout } from "../../services/ApiHandler";
 import {
   alertCircleOutline,
   checkboxOutline,
@@ -28,22 +28,22 @@ const AddModal = () => {
   const { addModal, setAddModal, setIsAdded } = useWorkoutContext();
   const [workout, setWorkout] = useState<Exercise>({});
   const [valid, setValid] = useState<boolean>(false);
-  const submitHandler = () => {
-    if (valid) {
-      addWorkout(workout)
-        .then((response) => console.log(response.data))
-        .catch((error) => console.log(error))
-        .finally(() => {
-          setAddModal(false);
-          setIsAdded(true);
-          setWorkout({});
-          setValid(false);
-          presentToast("bottom");
-        });
-    } else {
-      presentToast("bottom");
-    }
-  };
+  // const submitHandler = () => {
+  //   if (valid) {
+  //     addWorkout(workout)
+  //       .then((response) => console.log(response.data))
+  //       .catch((error) => console.log(error))
+  //       .finally(() => {
+  //         setAddModal(false);
+  //         setIsAdded(true);
+  //         setWorkout({});
+  //         setValid(false);
+  //         presentToast("bottom");
+  //       });
+  //   } else {
+  //     presentToast("bottom");
+  //   }
+  // };
   const cancelHandler = () => {
     setAddModal(false);
     setWorkout({});
@@ -92,9 +92,9 @@ const AddModal = () => {
           </IonButtons>
           <IonTitle className="ion-text-center">Add Workout</IonTitle>
           <IonButtons slot="end">
-            <IonButton strong={true} onClick={() => submitHandler()} color="primary">
+            {/* <IonButton strong={true} onClick={() => submitHandler()} color="primary">
               Confirm
-            </IonButton>
+            </IonButton> */}
           </IonButtons>
         </IonToolbar>
       </IonHeader>

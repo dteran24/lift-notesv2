@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const axiosProject = axios.create({
-    baseURL: "https://liftnotes-service.onrender.com/workouts"
+    baseURL: "http://localhost:8080"
 });

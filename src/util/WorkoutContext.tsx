@@ -9,7 +9,7 @@ import React, {
   SetStateAction,
 } from "react";
 import { WorkoutCategory } from "../models/WorkoutModel";
-import { getWorkoutList } from "../services/ApiHandler";
+// import { getWorkoutList } from "../services/ApiHandler";
 
 interface WorkoutContextType {
   workoutListData: WorkoutCategory[];
@@ -50,23 +50,24 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
   const [editModal, setEditModal] = useState(false);
   const [addModal, setAddModal] = useState(false);
   const [historyModal, setHistoryModal] = useState(false);
+  const [token, setToken] = useState("");
 
   // Fetch initial data from the API
-  useEffect(() => {
-    setIsLoading(true);
-    getWorkoutList()
-      .then((response) => {
-        setWorkoutListData(response.data);
-      })
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   getWorkoutList()
+  //     .then((response) => {
+  //       setWorkoutListData(response.data);
+  //     })
 
-      .catch((error) => console.log(error))
-      .finally(() => {
-        setIsLoading(false);
-        setIsSubmitted(false);
-        setIsDeleted(false);
-        setIsAdded(false);
-      });
-  }, [isSubmitted, isDeleted, isAdded]);
+  //     .catch((error) => console.log(error))
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //       setIsSubmitted(false);
+  //       setIsDeleted(false);
+  //       setIsAdded(false);
+  //     });
+  // }, [isSubmitted, isDeleted, isAdded]);
 
   return (
     <WorkoutContext.Provider
