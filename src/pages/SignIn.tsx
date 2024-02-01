@@ -1,55 +1,101 @@
 import {
   IonButton,
-  IonButtons,
-  IonCardContent,
   IonContent,
   IonInput,
   IonItem,
   IonLabel,
   IonPage,
+  IonText,
 } from "@ionic/react";
 import styles from "./SignIn.module.css";
-import { useState } from "react";
-import { UserRegistration } from "../models/UserRegistration";
-import { signUp, Login } from "../services/ApiHandler";
+import { useEffect, useState } from "react";
+import { Login } from "../services/ApiHandler";
 import { UserSignIn } from "../models/UserSignIn";
 
 const SignIn = () => {
-    const [signInData, setSignInData] = useState<UserSignIn>({
-        username:"",
-        password:""
-    })
+  const [signInData, setSignInData] = useState<UserSignIn>({
+    username: "",
+    password: "",
+  });
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
-    const submitHandler = async  (e: React.FormEvent) => {
-        e.preventDefault();
-        Login(signInData).then(response => response.data).catch(e => console.log(e));
-        
+  const submitHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      let response = await Login(signInData);
+      console.log(response.data);
+      setIsError(false);
+      setSignInData({ username: "", password: "" });
+    } catch (error: any) {
+      let errorMesage = error.response.data.error;
+      setMessage(errorMesage);
+      setIsError(true);
+      setSignInData((prev) => ({ ...prev, password: "" }));
+      console.error(errorMesage);
     }
+  };
 
-    const handleInputChange = (event: CustomEvent, key: keyof UserRegistration) => {
-        const newValue = event.detail.value;
-        setSignInData((prev) => ({
-          ...prev!,
-          [key]: newValue,
-        }));
-      };
+  const handleInputChange = (event: CustomEvent, key: keyof UserSignIn) => {
+    const newValue = event.detail.value;
+    setSignInData((prev) => ({
+      ...prev!,
+      [key]: newValue,
+    }));
+  };
+
+  useEffect(() => {
+    if (signInData.username !== "" && signInData.password !== "") {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [signInData]);
 
   return (
     <IonPage>
       <IonContent>
         <form className={styles.center} onSubmit={submitHandler}>
           <IonItem>
-            <IonLabel position="stacked" >Username</IonLabel>
-            <IonInput type="text" aria-label="Username" onIonChange={(e) => handleInputChange(e, "username")} value={signInData.username} ></IonInput>
+            <IonLabel position="stacked">Username</IonLabel>
+            <IonInput
+              required
+              type="text"
+              aria-label="Username"
+              onIonInput={(e) => handleInputChange(e, "username")}
+              value={signInData.username}
+            ></IonInput>
           </IonItem>
 
           <IonItem>
             <IonLabel position="stacked">Password</IonLabel>
-            <IonInput type="password" aria-label="Password" onIonChange={(e) => handleInputChange(e, "password")} value={signInData.password}></IonInput>
+            <IonInput
+              required
+              type="password"
+              aria-label="Password"
+              onIonInput={(e) => handleInputChange(e, "password")}
+              value={signInData.password}
+            ></IonInput>
           </IonItem>
+          {isError && (
+            <div className={styles.message}>
+              <IonText color="danger">{message}</IonText>
+            </div>
+          )}
           <div className={styles.buttonGroup}>
-            <IonButton type="submit" shape="round" expand="full" fill="solid">Sign in</IonButton>
-            <IonButton fill="clear" routerLink="/signup">Not a user?</IonButton>
+            <IonButton
+              type="submit"
+              shape="round"
+              expand="full"
+              fill="solid"
+              disabled={isDisabled}
+            >
+              Sign in
+            </IonButton>
+            <IonButton fill="clear" routerLink="/signup">
+              Not a user?
+            </IonButton>
           </div>
         </form>
       </IonContent>

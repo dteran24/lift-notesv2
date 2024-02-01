@@ -5,6 +5,7 @@ import { axiosProject } from "./AxiosInstance";
 
 
 export function signUp(signUp: UserRegistration) {
+
   return axiosProject.post("/auth/register", signUp, {
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +14,7 @@ export function signUp(signUp: UserRegistration) {
 };
 
 export function Login(login: UserSignIn) {
-  return axiosProject.post("/auth/register", signUp, {
+  return axiosProject.post("/auth/login", login, {
     headers: {
       "Content-Type": "application/json",
     }

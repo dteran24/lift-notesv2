@@ -21,7 +21,7 @@ const CreateUser = () => {
     passConfirmation: "",
   });
   const [message, setMessage] = useState("");
-  const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
+  const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const history = useHistory();
 
@@ -31,6 +31,7 @@ const CreateUser = () => {
       const response = await signUp(userData);
       console.log(response.data);
       history.push("/signin");
+      setError(false);
     } catch (error: any) {
       console.error("Error during sign-up:", error.response.data.message);
       setMessage(error.response.data.message);
@@ -38,8 +39,7 @@ const CreateUser = () => {
     } finally {
       setUserData({ username: "", password: "", passConfirmation: "" });
     }
-  }; 
- 
+  };
 
   const handleInputChange = (
     event: CustomEvent,
@@ -57,8 +57,16 @@ const CreateUser = () => {
       userData.password === userData.passConfirmation
     ) {
       setPasswordsMatch(true);
-    } else {
+      setError(false);
+    } else if (
+      userData.username !== "" &&
+      userData.password !== "" &&
+      userData.passConfirmation !== "" &&
+      userData.password !== userData.passConfirmation
+    ) {
+      setError(true);
       setPasswordsMatch(false);
+      setMessage("Passwords do not match!");
     }
   }, [userData]);
 
@@ -73,7 +81,7 @@ const CreateUser = () => {
               labelPlacement="stacked"
               type="text"
               aria-label="Username"
-              onIonInput={(e) => handleInputChange(e, "username")}
+              onIonChange={(e) => handleInputChange(e, "username")}
               value={userData.username}
             ></IonInput>
           </IonItem>
@@ -84,7 +92,7 @@ const CreateUser = () => {
               labelPlacement="stacked"
               type="password"
               aria-label="Password"
-              onIonInput={(e) => handleInputChange(e, "password")}
+              onIonChange={(e) => handleInputChange(e, "password")}
               value={userData.password}
             ></IonInput>
           </IonItem>

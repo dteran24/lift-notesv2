@@ -1,7 +1,11 @@
-.center{
-    margin-top: 40%;
-    padding: 0 1rem;
+.center {
+  margin-top: 40%;
+  padding: 0 1rem;
 }
-.buttonGroup{
-    margin-top: 1rem;
+.buttonGroup {
+  margin-top: 1rem;
+}
+.message {
+  padding: 0 1rem;
+  margin-top: 0.5rem;
 }
