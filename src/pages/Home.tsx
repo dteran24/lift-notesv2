@@ -7,28 +7,24 @@ import {
   IonFabButton,
   IonHeader,
   IonIcon,
-  IonLoading,
-  IonMenu,
   IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import WorkoutList from "../components/WorkoutList";
-import {
-  personCircle,
-  add,
-} from "ionicons/icons";
+import { personCircle, add } from "ionicons/icons";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import AddModal from "../components/Modals/AddModal";
 import SideMenu from "../components/SideMenu";
-import styles from "./Home.module.css"
+import styles from "./Home.module.css";
 
 const Home = () => {
-  const { workoutListData, isLoading, setAddModal } = useWorkoutContext();
+  const { workoutListData, isLoading, setAddModal, token } =
+    useWorkoutContext();
 
-
-
+  
+  
   return (
     <>
       <SideMenu />
@@ -45,22 +41,25 @@ const Home = () => {
           <IonTitle>Home</IonTitle>
         </IonToolbar>
         <IonContent>
-          <div className={styles.buttonGroup}>
-            <IonButton routerLink="/signin">Sign In</IonButton>
-            <IonButton>Demo Account</IonButton>
-          </div>
 
-          {/* {isLoading ? (
-            <IonLoading message="Loading workouts..." />
+          {token ? (
+            "Content Here"
           ) : (
-            <WorkoutList data={workoutListData} />
-          )} */}
+            <div className={styles.buttonGroup}>
+              <IonButton routerLink="/signin">Sign In</IonButton>
+              <IonButton>Demo Account</IonButton>
+            </div>
+          )}
         </IonContent>
-        <IonFab slot="fixed" vertical="bottom" horizontal="end">
-          {/* <IonFabButton onClick={() => setAddModal(true)}>
-            <IonIcon icon={add}></IonIcon>
-          </IonFabButton> */}
-        </IonFab>
+        {token ? (
+          <IonFab slot="fixed" vertical="bottom" horizontal="end">
+            <IonFabButton onClick={() => setAddModal(true)}>
+              <IonIcon icon={add}></IonIcon>
+            </IonFabButton>
+          </IonFab>
+        ) : (
+          ""
+        )}
         <AddModal />
       </IonPage>
     </>

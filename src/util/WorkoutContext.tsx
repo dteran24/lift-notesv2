@@ -23,6 +23,8 @@ interface WorkoutContextType {
   historyModal: boolean;
   setHistoryModal: Dispatch<SetStateAction<boolean>>;
   isLoading: boolean;
+  token: string;
+  setToken: Dispatch<SetStateAction<string>>;
 }
 
 const WorkoutContext = createContext<WorkoutContextType | undefined>(undefined);
@@ -82,7 +84,9 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
         editModal,
         setEditModal,
         historyModal,
-        setHistoryModal
+        setHistoryModal,
+        token,
+        setToken,
       }}
     >
       {children}

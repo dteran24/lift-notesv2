@@ -11,8 +11,11 @@ import styles from "./SignIn.module.css";
 import { useEffect, useState } from "react";
 import { Login } from "../services/ApiHandler";
 import { UserSignIn } from "../models/UserSignIn";
+import { useHistory } from "react-router-dom";
+import { useWorkoutContext } from "../util/WorkoutContext";
 
 const SignIn = () => {
+  const { setToken } = useWorkoutContext();
   const [signInData, setSignInData] = useState<UserSignIn>({
     username: "",
     password: "",
@@ -21,13 +24,19 @@ const SignIn = () => {
   const [isError, setIsError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
+  
+  const history = useHistory();
+
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       let response = await Login(signInData);
+      setToken(response.data.jwt);
+      
       console.log(response.data);
       setIsError(false);
       setSignInData({ username: "", password: "" });
+      history.push("/");
     } catch (error: any) {
       let errorMesage = error.response.data.error;
       setMessage(errorMesage);
