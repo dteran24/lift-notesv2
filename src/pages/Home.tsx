@@ -18,10 +18,16 @@ import { useWorkoutContext } from "../util/WorkoutContext";
 import AddModal from "../components/Modals/AddModal";
 import SideMenu from "../components/SideMenu";
 import styles from "./Home.module.css";
+import { useEffect } from "react";
+import { getExerciseList } from "../services/ApiHandler";
 
 const Home = () => {
-  const { workoutListData, isLoading, setAddModal, token } =
+  const { setAddModal, token } =
     useWorkoutContext();
+  useEffect(() => {
+    
+    
+  },[])
 
   
   

@@ -2,37 +2,64 @@ import {
   IonItem,
   IonSelect,
   IonSelectOption,
-  IonLabel,
   IonInput,
+  IonButton,
 } from "@ionic/react";
-import { Dispatch, SetStateAction } from "react";
-import { Exercise } from "../models/WorkoutModel";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Exercise, WorkoutExercise } from "../models/WorkoutModel";
 import { useWorkoutContext } from "../util/WorkoutContext";
-import "./Form.css"
-interface FormProps {
-  workout: Exercise;
-  setWorkout: Dispatch<SetStateAction<Exercise>>;
-}
+import styles from "./Form.module.css";
+type FormProps = {
+  ExerciseList: Exercise[];
+};
 
 const Form = (props: FormProps) => {
-  const { setWorkout, workout } = props;
+  const { ExerciseList } = props;
   const { addModal } = useWorkoutContext();
-  const handleInputChange = (event: CustomEvent, key: keyof Exercise) => {
+  const [genre, setGenre] = useState("All");
+  const [nameOptions, setNameOptions] = useState(ExerciseList);
+  const [workoutExercise, setWorkoutExercise] = useState<WorkoutExercise>({
+    reps: 0,
+    sets: 0,
+    weight: 0,
+  });
+  const handleInputChange = (
+    event: CustomEvent,
+    key: keyof WorkoutExercise
+  ) => {
     const newValue = event.detail.value;
-    setWorkout((prevWorkout) => ({
+    setWorkoutExercise((prevWorkout) => ({
       ...prevWorkout!,
       [key]: newValue,
     }));
   };
+  const handleGenreChange = (event: CustomEvent) => {
+    let selectedGenre = event.detail.value;
+    if (selectedGenre === "All") {
+      setNameOptions(ExerciseList);
+    } else {
+      setGenre(selectedGenre);
+      setNameOptions(
+        ExerciseList.filter((exercise) => exercise.genre === selectedGenre)
+      );
+    }
+  };
+  const submitHandler = async(event: React.FormEvent) => {
+    event.preventDefault();
+    
+  }
+
   return (
-    <form>
+    <form className={styles.form}>
       {addModal ? (
-        <IonItem lines="none">
+        <IonItem lines="none" className={styles.input}>
           <IonSelect
+            value={genre}
+            onIonChange={handleGenreChange}
             aria-label="genre"
-            placeholder="Select genre"
-            onIonChange={(e) => handleInputChange(e, "genre")}
+            label="Select a Genre"
           >
+            <IonSelectOption value="All">All</IonSelectOption>
             <IonSelectOption value="Chest">Chest</IonSelectOption>
             <IonSelectOption value="Legs">Legs</IonSelectOption>
             <IonSelectOption value="Arms">Arms</IonSelectOption>
@@ -44,59 +71,48 @@ const Form = (props: FormProps) => {
         ""
       )}
 
-      <IonItem>
-        <IonInput
-          aria-label="name"
-          label="Name"
-          type="text"
-          labelPlacement="floating"
-          value={workout.name}
-          onIonInput={(e) => handleInputChange(e, "name")}
-        />
+      <IonItem className={styles.input}>
+        <IonSelect aria-label="genre" label="Name">
+          {nameOptions.map((exercise) => {
+            return (
+              <IonSelectOption key={exercise.id} value={exercise.name}>
+                {exercise.name}
+              </IonSelectOption>
+            );
+          })}
+        </IonSelect>
       </IonItem>
-      <IonItem>
+      <IonItem className={styles.input}>
         <IonInput
           aria-label="sets"
           label="Sets"
           type="number"
-          labelPlacement="floating"
-          value={workout.sets}
+          labelPlacement="stacked"
           onIonInput={(e) => handleInputChange(e, "sets")}
         />
       </IonItem>
-      <IonItem>
+      <IonItem className={styles.input}>
         <IonInput
           aria-label="reps"
           label="Reps"
           type="number"
-          labelPlacement="floating"
-          value={workout.reps}
+          labelPlacement="stacked"
           onIonInput={(e) => handleInputChange(e, "reps")}
         />
       </IonItem>
 
-      <IonItem>
+      <IonItem className={styles.input}>
         <IonInput
           aria-label="weight"
           label="Weight"
           type="number"
-          labelPlacement="floating"
-          value={workout.weight}
+          labelPlacement="stacked"
           onIonInput={(e) => handleInputChange(e, "weight")}
         />
       </IonItem>
-      <IonItem lines="none">
-        <IonInput
-          aria-label="notes"
-          label="Notes"
-          type="text"
-          labelPlacement="floating"
-          value={workout.notes}
-          onIonInput={(e) => handleInputChange(e, "notes")}
-          counter={true}
-          maxlength={10}
-        />
-      </IonItem>
+      <IonButton type="submit" shape="round" expand="full" fill="solid">
+        Submit
+      </IonButton>
     </form>
   );
 };

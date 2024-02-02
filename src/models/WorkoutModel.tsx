@@ -1,13 +1,13 @@
 export interface Exercise {
+  id: number;
   genre?: string;
-  date?: string;
-  id?: string;
   name?: string;
-  notes?: string;
-  reps?: number;
-  sets?: number;
-  weight?: number;
-  history?: ExerciseHistory[];
+  description: string;
+}
+export interface WorkoutExercise{
+  sets: number;
+  reps: number;
+  weight: number;
 }
 export interface ExerciseHistory{
   date: string;

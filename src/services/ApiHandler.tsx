@@ -1,6 +1,7 @@
+import { AxiosResponse } from "axios";
 import { UserRegistration } from "../models/UserRegistration";
 import { UserSignIn } from "../models/UserSignIn";
-import { Exercise } from "../models/WorkoutModel";
+import { Exercise, WorkoutExercise } from "../models/WorkoutModel";
 import { axiosProject } from "./AxiosInstance";
 
 
@@ -19,6 +20,30 @@ export function Login(login: UserSignIn) {
       "Content-Type": "application/json",
     }
   });
+}
+
+export function addExercise(exercise: Exercise) {
+  return axiosProject.post("/exercise/add", exercise, {
+    headers: {
+      "Content-Type": "application/json",
+    }
+  });
+}
+
+export function getExerciseList(token: string) : Promise<AxiosResponse<Exercise[] | string>> {
+  return axiosProject.get<Exercise[] | string>("/exercise/all", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+}
+
+export function addWorkoutExercise(workoutID: number, exerciseID: number, workoutExercise: WorkoutExercise) {
+  return axiosProject.post(`/workoutExercise/add?workoutID=${workoutID}&exerciseID=${exerciseID}`, workoutExercise, {
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
 }
 
 
