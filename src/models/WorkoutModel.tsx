@@ -9,6 +9,14 @@ export interface WorkoutExercise{
   reps: number;
   weight: number;
 }
+
+export interface WorkoutExerciseList{
+  exercise: Exercise;
+  id: number;
+  sets: number;
+  reps: number;
+  weight: number;
+}
 export interface ExerciseHistory{
   date: string;
   notes: string;

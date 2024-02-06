@@ -97,7 +97,7 @@ const AddModal = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <Form ExerciseList={exerciseList}/>
+        <Form ExerciseList={exerciseList} cancelHandler={cancelHandler}/>
       </IonContent>
     </IonModal>
   );

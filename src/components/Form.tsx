@@ -9,14 +9,18 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { Exercise, WorkoutExercise } from "../models/WorkoutModel";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import styles from "./Form.module.css";
+import { addWorkoutExercise } from "../services/ApiHandler";
 type FormProps = {
   ExerciseList: Exercise[];
+  cancelHandler: () => void;
+
 };
 
 const Form = (props: FormProps) => {
-  const { ExerciseList } = props;
-  const { addModal } = useWorkoutContext();
+  const { ExerciseList, cancelHandler } = props;
+  const { addModal, token } = useWorkoutContext();
   const [genre, setGenre] = useState("All");
+  const [nameId, setNameId] = useState<number>();
   const [nameOptions, setNameOptions] = useState(ExerciseList);
   const [workoutExercise, setWorkoutExercise] = useState<WorkoutExercise>({
     reps: 0,
@@ -44,13 +48,29 @@ const Form = (props: FormProps) => {
       );
     }
   };
-  const submitHandler = async(event: React.FormEvent) => {
+
+  const handleNameChange = (event: CustomEvent) => {
+    setNameId(event.detail.value);
+  };
+  const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+    try {
+      let response = await addWorkoutExercise(nameId!, workoutExercise, token);
+      cancelHandler();
+      clearValues();
+      
+      console.log(response.data);
+    } catch (e) {
+      console.error(e)
+    }
+  };
+  const clearValues = () => {
+    setGenre("All");
+    setWorkoutExercise({weight:0, sets:0,reps:0})
   }
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={submitHandler}>
       {addModal ? (
         <IonItem lines="none" className={styles.input}>
           <IonSelect
@@ -72,10 +92,15 @@ const Form = (props: FormProps) => {
       )}
 
       <IonItem className={styles.input}>
-        <IonSelect aria-label="genre" label="Name">
+        <IonSelect
+          aria-label="genre"
+          label="Name"
+          value={nameId}
+          onIonChange={handleNameChange}
+        >
           {nameOptions.map((exercise) => {
             return (
-              <IonSelectOption key={exercise.id} value={exercise.name}>
+              <IonSelectOption key={exercise.id} value={exercise.id}>
                 {exercise.name}
               </IonSelectOption>
             );
@@ -84,6 +109,7 @@ const Form = (props: FormProps) => {
       </IonItem>
       <IonItem className={styles.input}>
         <IonInput
+          required
           aria-label="sets"
           label="Sets"
           type="number"
@@ -93,6 +119,7 @@ const Form = (props: FormProps) => {
       </IonItem>
       <IonItem className={styles.input}>
         <IonInput
+          required
           aria-label="reps"
           label="Reps"
           type="number"
@@ -103,6 +130,7 @@ const Form = (props: FormProps) => {
 
       <IonItem className={styles.input}>
         <IonInput
+          required
           aria-label="weight"
           label="Weight"
           type="number"

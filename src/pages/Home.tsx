@@ -18,17 +18,28 @@ import { useWorkoutContext } from "../util/WorkoutContext";
 import AddModal from "../components/Modals/AddModal";
 import SideMenu from "../components/SideMenu";
 import styles from "./Home.module.css";
-import { useEffect } from "react";
-import { getExerciseList } from "../services/ApiHandler";
+import { SetStateAction, useEffect, useState } from "react";
+import { getExerciseList, getWorkoutExerciseList } from "../services/ApiHandler";
+import WorkoutCard from "../components/WorkoutCard";
+import { Exercise, WorkoutExerciseList } from "../models/WorkoutModel";
+import { formToJSON } from "axios";
 
 const Home = () => {
-  const { setAddModal, token } =
+  const { setAddModal, token, exerciseList, addModal } =
     useWorkoutContext();
+  const [userWorkouts, setUserWorkouts] = useState<WorkoutExerciseList[]>();
+  
   useEffect(() => {
-    
-    
-  },[])
-
+    const fetchData = async (token: string) => {
+      let response = await getWorkoutExerciseList(token);
+      setUserWorkouts(response.data);
+      console.log(response.data);
+    }
+    if (token) {
+      fetchData(token);
+    }
+  
+  },[token, addModal])
   
   
   return (
@@ -47,15 +58,17 @@ const Home = () => {
           <IonTitle>Home</IonTitle>
         </IonToolbar>
         <IonContent>
-
-          {token ? (
-            "Content Here"
-          ) : (
-            <div className={styles.buttonGroup}>
-              <IonButton routerLink="/signin">Sign In</IonButton>
-              <IonButton>Demo Account</IonButton>
-            </div>
-          )}
+          {!token ? <div className={styles.buttonGroup}>
+            <IonButton routerLink="/signin">Sign In</IonButton>
+            <IonButton>Demo Account</IonButton>
+          </div> : userWorkouts ? (
+            userWorkouts.map(excercise => {
+              return (
+                <WorkoutCard workoutItem={excercise} key={excercise.id} />
+              )
+            })
+          ):"No items Found" 
+        }
         </IonContent>
         {token ? (
           <IonFab slot="fixed" vertical="bottom" horizontal="end">
