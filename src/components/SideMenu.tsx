@@ -10,7 +10,7 @@ import {
   IonMenuToggle,
   IonIcon,
 } from "@ionic/react";
-import { archive, informationCircle, swapVertical } from "ionicons/icons";
+import { archive, informationCircle, swapVertical, barbell } from "ionicons/icons";
 
 const SideMenu = () => {
   return (
@@ -32,6 +32,12 @@ const SideMenu = () => {
             <IonItem routerDirection="forward" disabled>
               <IonIcon icon={swapVertical} slot="start" />
               Organize
+            </IonItem>
+          </IonMenuToggle>
+          <IonMenuToggle>
+            <IonItem routerDirection="forward" disabled>
+              <IonIcon icon={barbell} slot="start" />
+              Add Exercise
             </IonItem>
           </IonMenuToggle>
           <IonMenuToggle>

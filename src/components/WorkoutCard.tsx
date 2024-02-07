@@ -14,10 +14,19 @@ import {
   useIonToast,
 } from "@ionic/react";
 
-import { createOutline, trash, checkmarkCircleOutline } from "ionicons/icons";
+import {
+  createOutline,
+  trash,
+  checkmarkCircleOutline,
+  informationCircleOutline,
+} from "ionicons/icons";
 import { Exercise, WorkoutExerciseList } from "../models/WorkoutModel";
-import { Dispatch, SetStateAction, useRef } from "react";
-import styles from "./workoutCard.module.css"
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+
+// import required modules
+import { Navigation } from 'swiper/modules';
+import styles from "./workoutCard.module.css";
 interface WorkoutCardProps {
   workoutItem: WorkoutExerciseList;
   // setSelectedCard: Dispatch<SetStateAction<Exercise>>;
@@ -27,7 +36,6 @@ const WorkoutCard = (props: WorkoutCardProps) => {
   const { workoutItem } = props;
   // const { setIsDeleted, ,  } = useWorkoutContext();
 
-  const slidingRef = useRef<HTMLIonItemSlidingElement>(null);
   const [present] = useIonToast();
 
   // const onClickEditModalHandler = (workout: Exercise) => {
@@ -71,33 +79,45 @@ const WorkoutCard = (props: WorkoutCardProps) => {
   };
   console.log(workoutItem);
   return (
-    <IonCard
-      className={styles.card}
-      // onClick={() => onClickHistoryModalHandler(workoutItem)}
-    >
-      <IonCardHeader>
-        <IonCardTitle>{workoutItem.exercise.name}</IonCardTitle>
-        {/* <IonCardSubtitle>{`Last Updated: ${workoutItem.date}`}</IonCardSubtitle> */}
-      </IonCardHeader>
-      <IonCardContent>
-        <IonList lines="none">
-          <IonItem>
-            <label className={styles.label}>Reps:</label>
-              {workoutItem.reps}
-              
-          </IonItem>
-          <IonItem>
-            <label>Sets: </label>
-            {workoutItem.sets}
-          </IonItem>
-          <IonItem>
-            <label>Weight: </label>
-            {workoutItem.weight}
-          </IonItem>
-          {/* <IonItem>{`Notes: ${workoutItem.notes}`}</IonItem> */}
-        </IonList>
-      </IonCardContent>
-    </IonCard>
+        <IonCard
+          className={styles.card}
+          // onClick={() => onClickHistoryModalHandler(workoutItem)}
+        >
+          <IonCardHeader>
+            <IonCardTitle className={styles.title}>
+              {workoutItem.exercise.name}
+              <IonIcon
+                icon={informationCircleOutline}
+                size="medium"
+                color="medium"
+              ></IonIcon>
+            </IonCardTitle>
+            {/* <IonCardSubtitle>{`Last Updated: ${workoutItem.date}`}</IonCardSubtitle> */}
+          </IonCardHeader>
+          <IonCardContent className={styles.content}>
+            <IonList lines="none" className={styles.list}>
+              <IonItem className="ion-no-padding">
+                <div className={styles.item}>
+                  <label className={styles.label}>Reps</label>
+                  {workoutItem.reps}
+                </div>
+              </IonItem>
+              <IonItem className="ion-no-padding">
+                <div className={styles.item}>
+                  <label>Sets</label>
+                  {workoutItem.sets}
+                </div>
+              </IonItem>
+              <IonItem className="ion-no-padding">
+                <div className={styles.item}>
+                  <label>Weight</label>
+                  {workoutItem.weight}
+                </div>
+              </IonItem>
+              {/* <IonItem>{`Notes: ${workoutItem.notes}`}</IonItem> */}
+            </IonList>
+          </IonCardContent>
+        </IonCard>
   );
 };
 export default WorkoutCard;
