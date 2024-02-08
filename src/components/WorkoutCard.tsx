@@ -18,30 +18,27 @@ import {
   informationCircleOutline,
 } from "ionicons/icons";
 import { Exercise, WorkoutExerciseList } from "../models/WorkoutModel";
-
-// import required modules
-import { Navigation } from "swiper/modules";
 import styles from "./workoutCard.module.css";
 import { removeWorkoutExercise } from "../services/ApiHandler";
 import { useWorkoutContext } from "../util/WorkoutContext";
+import { Dispatch, SetStateAction } from "react";
 interface WorkoutCardProps {
   workoutItem: WorkoutExerciseList;
-  // setSelectedCard: Dispatch<SetStateAction<Exercise>>;
+  setFormModal: Dispatch<SetStateAction<boolean>>;
+  setUpdateID: Dispatch<SetStateAction<number>>;
 }
 
 const WorkoutCard = (props: WorkoutCardProps) => {
-  const { workoutItem } = props;
-  const { token, setUserWorkouts} = useWorkoutContext();
+  const { workoutItem, setFormModal, setUpdateID } = props;
+  const { token, setUserWorkouts, setFormStatus } = useWorkoutContext();
 
   const [present] = useIonToast();
 
-  // const onClickEditModalHandler = (workout: Exercise) => {
-  //   setSelectedCard(workout);
-  //   setEditModal(true);
-  //   if (slidingRef.current) {
-  //     slidingRef.current.close();
-  //   }
-  // };
+  const editHandler = () => {
+    setFormStatus("update");
+    setUpdateID(workoutItem.id);
+    setFormModal(true);
+  };
   // const onClickHistoryModalHandler = (workout: Exercise) => {
   //   setSelectedCard(workout);
   //   setHistoryModal(true);
@@ -49,10 +46,10 @@ const WorkoutCard = (props: WorkoutCardProps) => {
   //     slidingRef.current.close();
   //   }
   // };
-  const deleteHandler = async(id: number) => {
+  const deleteHandler = async (id: number) => {
     if (id !== undefined) {
       let response = await removeWorkoutExercise(id, token);
-      setUserWorkouts(prev => prev.filter(workout => workout.id !== id));
+      setUserWorkouts((prev) => prev.filter((workout) => workout.id !== id));
       console.log(response.data);
     }
   };
@@ -68,21 +65,14 @@ const WorkoutCard = (props: WorkoutCardProps) => {
   };
   console.log(workoutItem);
   return (
-    <IonCard
-      id="open-action-sheet"
-      className={styles.card}
-      // onClick={() => onClickHistoryModalHandler(workoutItem)}
-    >
+    <IonCard id={workoutItem.id.toString()} className={styles.card}>
       <IonCardHeader>
         <IonCardTitle className={styles.title}>
           {workoutItem.exercise.name}
-          <IonIcon
-            icon={informationCircleOutline}
-            size="medium"
-            color="medium"
-          ></IonIcon>
         </IonCardTitle>
-        {/* <IonCardSubtitle>{`Last Updated: ${workoutItem.date}`}</IonCardSubtitle> */}
+        {workoutItem.lastUpdated && (
+          <IonCardSubtitle>{`Last Updated: ${workoutItem.lastUpdated}`}</IonCardSubtitle>
+        )}
       </IonCardHeader>
       <IonCardContent className={styles.content}>
         <IonList lines="none" className={styles.list}>
@@ -108,7 +98,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
         </IonList>
       </IonCardContent>
       <IonActionSheet
-        trigger="open-action-sheet"
+        trigger={workoutItem.id.toString()}
         header="Actions"
         buttons={[
           {
@@ -117,13 +107,14 @@ const WorkoutCard = (props: WorkoutCardProps) => {
             data: {
               action: "delete",
             },
-            handler: () => deleteHandler(workoutItem.id)
+            handler: () => deleteHandler(workoutItem.id),
           },
           {
             text: "Update",
             data: {
               action: "update",
             },
+            handler: () => editHandler(),
           },
           {
             text: "More Info",

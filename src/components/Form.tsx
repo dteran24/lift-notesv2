@@ -9,16 +9,16 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { Exercise, WorkoutExercise } from "../models/WorkoutModel";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import styles from "./Form.module.css";
-import { addWorkoutExercise } from "../services/ApiHandler";
+import { addWorkoutExercise, updateWorkoutExercise } from "../services/ApiHandler";
 type FormProps = {
   ExerciseList: Exercise[];
   cancelHandler: () => void;
-
+  updateID: number;
 };
 
 const Form = (props: FormProps) => {
-  const { ExerciseList, cancelHandler } = props;
-  const { addModal, token } = useWorkoutContext();
+  const { ExerciseList, cancelHandler, updateID } = props;
+  const { formStatus, token } = useWorkoutContext();
   const [genre, setGenre] = useState("All");
   const [nameId, setNameId] = useState<number>();
   const [nameOptions, setNameOptions] = useState(ExerciseList);
@@ -54,59 +54,73 @@ const Form = (props: FormProps) => {
   };
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    try {
-      let response = await addWorkoutExercise(nameId!, workoutExercise, token);
-      cancelHandler();
-      clearValues();
-      
-      console.log(response.data);
-    } catch (e) {
-      console.error(e)
-    }
-  };
+    if (formStatus === "add") {
+      try {
+        let response = await addWorkoutExercise(nameId!, workoutExercise, token);
+        cancelHandler();
+        // clearValues();
+
+        console.log(response.data);
+      } catch (e) {
+        console.error(e);
+      }
+    } else if (formStatus === "update") {
+      try {
+        let response = await updateWorkoutExercise(token, updateID, workoutExercise);
+        cancelHandler();
+        console.log(response);
+      }
+      catch (e) {
+        console.error(e);
+      }
+    };
+  }
+  
   const clearValues = () => {
     setGenre("All");
-    setWorkoutExercise({weight:0, sets:0,reps:0})
-  }
-
+    setWorkoutExercise({ weight: 0, sets: 0, reps: 0 });
+  };
+  console.log(formStatus)
   return (
     <form className={styles.form} onSubmit={submitHandler}>
-      {addModal ? (
-        <IonItem lines="none" className={styles.input}>
-          <IonSelect
-            value={genre}
-            onIonChange={handleGenreChange}
-            aria-label="genre"
-            label="Select a Genre"
-          >
-            <IonSelectOption value="All">All</IonSelectOption>
-            <IonSelectOption value="Chest">Chest</IonSelectOption>
-            <IonSelectOption value="Legs">Legs</IonSelectOption>
-            <IonSelectOption value="Arms">Arms</IonSelectOption>
-            <IonSelectOption value="Back">Back</IonSelectOption>
-            <IonSelectOption value="Shoulders">Shoulders</IonSelectOption>
-          </IonSelect>
-        </IonItem>
+      {formStatus === "add" ? (
+        <>
+          <IonItem lines="none" className={styles.input}>
+            <IonSelect
+              value={genre}
+              onIonChange={handleGenreChange}
+              aria-label="genre"
+              label="Select a Genre"
+            >
+              <IonSelectOption value="All">All</IonSelectOption>
+              <IonSelectOption value="Chest">Chest</IonSelectOption>
+              <IonSelectOption value="Legs">Legs</IonSelectOption>
+              <IonSelectOption value="Arms">Arms</IonSelectOption>
+              <IonSelectOption value="Back">Back</IonSelectOption>
+              <IonSelectOption value="Shoulders">Shoulders</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem className={styles.input}>
+            <IonSelect
+              aria-label="genre"
+              label="Name"
+              value={nameId}
+              onIonChange={handleNameChange}
+            >
+              {nameOptions.map((exercise) => {
+                return (
+                  <IonSelectOption key={exercise.id} value={exercise.id}>
+                    {exercise.name}
+                  </IonSelectOption>
+                );
+              })}
+            </IonSelect>
+          </IonItem>
+        </>
       ) : (
         ""
       )}
 
-      <IonItem className={styles.input}>
-        <IonSelect
-          aria-label="genre"
-          label="Name"
-          value={nameId}
-          onIonChange={handleNameChange}
-        >
-          {nameOptions.map((exercise) => {
-            return (
-              <IonSelectOption key={exercise.id} value={exercise.id}>
-                {exercise.name}
-              </IonSelectOption>
-            );
-          })}
-        </IonSelect>
-      </IonItem>
       <IonItem className={styles.input}>
         <IonInput
           required

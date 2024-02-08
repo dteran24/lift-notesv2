@@ -8,27 +8,18 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { Exercise, WorkoutCategory, WorkoutExercise, WorkoutExerciseList } from "../models/WorkoutModel";
+import { Exercise, WorkoutExerciseList } from "../models/WorkoutModel";
 import { getExerciseList } from "../services/ApiHandler";
-// import { getWorkoutList } from "../services/ApiHandler";
+
 
 interface WorkoutContextType {
-  // workoutListData: WorkoutCategory[];
-  // setIsSubmitted: Dispatch<SetStateAction<boolean>>;
-  // setIsDeleted: Dispatch<SetStateAction<boolean>>;
-  // setIsAdded: Dispatch<SetStateAction<boolean>>;
-  // addModal: boolean;
-  // setAddModal: Dispatch<SetStateAction<boolean>>;
-  // editModal: boolean;
-  // setEditModal: Dispatch<SetStateAction<boolean>>;
-  // historyModal: boolean;
-  // setHistoryModal: Dispatch<SetStateAction<boolean>>;
-  // isLoading: boolean;
   token: string;
   setToken: Dispatch<SetStateAction<string>>;
   exerciseList: Exercise[];
   userWorkouts: WorkoutExerciseList[];
   setUserWorkouts: Dispatch<SetStateAction<WorkoutExerciseList[]>>;
+  formStatus: string;
+  setFormStatus: Dispatch<SetStateAction<string>>;
 }
 
 const WorkoutContext = createContext<WorkoutContextType | undefined>(undefined);
@@ -48,34 +39,14 @@ interface WorkoutProviderProps {
 export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
   children,
 }) => {
-  // const [workoutListData, setWorkoutListData] = useState<WorkoutCategory[]>([]);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-  // const [isDeleted, setIsDeleted] = useState(false);
-  // const [isAdded, setIsAdded] = useState(false);
-  // const [editModal, setEditModal] = useState(false);
+ 
  
   const [userWorkouts, setUserWorkouts] = useState<WorkoutExerciseList[]>([]);
-  const [historyModal, setHistoryModal] = useState(false);
   const [token, setToken] = useState("");
-  const [exerciseList, setExerciseList] = useState<Exercise[] >([]);
+  const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
+  const [formStatus, setFormStatus] = useState("");
 
-  // Fetch initial data from the API
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   getWorkoutList()
-  //     .then((response) => {
-  //       setWorkoutListData(response.data);
-  //     })
 
-  //     .catch((error) => console.log(error))
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //       setIsSubmitted(false);
-  //       setIsDeleted(false);
-  //       setIsAdded(false);
-  //     });
-  // }, [isSubmitted, isDeleted, isAdded]);
 
   useEffect(() => {
     const fetchExerciseList = async () => {
@@ -94,22 +65,13 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
   return (
     <WorkoutContext.Provider
       value={{
-        // workoutListData,
-        // setIsSubmitted,
-        // isLoading,
-        // setIsDeleted,
-        // setIsAdded,
-        // addModal,
-        // setAddModal,
-        // editModal,
-        // setEditModal,
-        // historyModal,
-        // setHistoryModal,
         token,
         setToken,
         exerciseList,
         userWorkouts,
-        setUserWorkouts
+        setUserWorkouts,
+        formStatus,
+        setFormStatus
       }}
     >
       {children}

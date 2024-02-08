@@ -8,6 +8,8 @@ export interface WorkoutExercise{
   sets: number;
   reps: number;
   weight: number;
+  creationDate: string;
+  lastUpdated: string;
 }
 
 export interface WorkoutExerciseList{
@@ -16,6 +18,8 @@ export interface WorkoutExerciseList{
   sets: number;
   reps: number;
   weight: number;
+  creationDate: string;
+  lastUpdated: string;
 }
 export interface ExerciseHistory{
   date: string;
