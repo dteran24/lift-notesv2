@@ -8,7 +8,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { Exercise, WorkoutCategory } from "../models/WorkoutModel";
+import { Exercise, WorkoutCategory, WorkoutExercise, WorkoutExerciseList } from "../models/WorkoutModel";
 import { getExerciseList } from "../services/ApiHandler";
 // import { getWorkoutList } from "../services/ApiHandler";
 
@@ -17,8 +17,8 @@ interface WorkoutContextType {
   // setIsSubmitted: Dispatch<SetStateAction<boolean>>;
   // setIsDeleted: Dispatch<SetStateAction<boolean>>;
   // setIsAdded: Dispatch<SetStateAction<boolean>>;
-  addModal: boolean;
-  setAddModal: Dispatch<SetStateAction<boolean>>;
+  // addModal: boolean;
+  // setAddModal: Dispatch<SetStateAction<boolean>>;
   // editModal: boolean;
   // setEditModal: Dispatch<SetStateAction<boolean>>;
   // historyModal: boolean;
@@ -27,6 +27,8 @@ interface WorkoutContextType {
   token: string;
   setToken: Dispatch<SetStateAction<string>>;
   exerciseList: Exercise[];
+  userWorkouts: WorkoutExerciseList[];
+  setUserWorkouts: Dispatch<SetStateAction<WorkoutExerciseList[]>>;
 }
 
 const WorkoutContext = createContext<WorkoutContextType | undefined>(undefined);
@@ -52,7 +54,8 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
   // const [isDeleted, setIsDeleted] = useState(false);
   // const [isAdded, setIsAdded] = useState(false);
   // const [editModal, setEditModal] = useState(false);
-  const [addModal, setAddModal] = useState(false);
+ 
+  const [userWorkouts, setUserWorkouts] = useState<WorkoutExerciseList[]>([]);
   const [historyModal, setHistoryModal] = useState(false);
   const [token, setToken] = useState("");
   const [exerciseList, setExerciseList] = useState<Exercise[] >([]);
@@ -96,8 +99,8 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
         // isLoading,
         // setIsDeleted,
         // setIsAdded,
-        addModal,
-        setAddModal,
+        // addModal,
+        // setAddModal,
         // editModal,
         // setEditModal,
         // historyModal,
@@ -105,6 +108,8 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
         token,
         setToken,
         exerciseList,
+        userWorkouts,
+        setUserWorkouts
       }}
     >
       {children}

@@ -38,8 +38,17 @@ export function getExerciseList(token: string) : Promise<AxiosResponse<Exercise[
   });
 }
 
-export function addWorkoutExercise(exerciseID: number, workoutExercise: WorkoutExercise, token: string) {
-  return axiosProject.post(`/workoutExercise/add?exerciseID=${exerciseID}`, workoutExercise, {
+export function addWorkoutExercise(workoutExerciseID: number, workoutExercise: WorkoutExercise, token: string) {
+  return axiosProject.post(`/workoutExercise/add?workoutExerciseID=${workoutExerciseID}`, workoutExercise, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    }
+  })
+}
+
+export function removeWorkoutExercise(workoutExerciseID: number, token: string) {
+  return axiosProject.delete(`/workoutExercise/delete?workoutExerciseID=${workoutExerciseID}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

@@ -14,10 +14,10 @@ import {
   useIonToast,
 } from "@ionic/react";
 import { useWorkoutContext } from "../../util/WorkoutContext";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Exercise, WorkoutExercise } from "../../models/WorkoutModel";
 // import { addWorkout } from "../../services/ApiHandler";
-import styles from "./AddModal.module.css"
+import styles from "./AddModal.module.css";
 import {
   alertCircleOutline,
   checkboxOutline,
@@ -25,9 +25,15 @@ import {
 } from "ionicons/icons";
 import Form from "../Form";
 
-const AddModal = () => {
-  const { addModal, setAddModal, exerciseList } = useWorkoutContext();
- 
+type AddModalProps = {
+  addModal: boolean;
+  setAddModal: Dispatch<SetStateAction<boolean>>;
+};
+
+const AddModal = (props: AddModalProps) => {
+  const { addModal, setAddModal } = props;
+  const { exerciseList } = useWorkoutContext();
+
   const [valid, setValid] = useState<boolean>(false);
   // const submitHandler = () => {
   //   if (valid) {
@@ -92,12 +98,11 @@ const AddModal = () => {
             <IonButton onClick={() => cancelHandler()}>Cancel</IonButton>
           </IonButtons>
           <IonTitle className="ion-text-center">Add Workout</IonTitle>
-          <IonButtons slot="end">
-          </IonButtons>
+          <IonButtons slot="end"></IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <Form ExerciseList={exerciseList} cancelHandler={cancelHandler}/>
+        <Form ExerciseList={exerciseList} cancelHandler={cancelHandler} />
       </IonContent>
     </IonModal>
   );

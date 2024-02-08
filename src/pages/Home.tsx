@@ -25,9 +25,9 @@ import { Exercise, WorkoutExerciseList } from "../models/WorkoutModel";
 import { formToJSON } from "axios";
 
 const Home = () => {
-  const { setAddModal, token, exerciseList, addModal } =
+  const { token, exerciseList, userWorkouts, setUserWorkouts} =
     useWorkoutContext();
-  const [userWorkouts, setUserWorkouts] = useState<WorkoutExerciseList[]>();
+    const [addModal, setAddModal] = useState(false);
   
   useEffect(() => {
     const fetchData = async (token: string) => {
@@ -79,7 +79,7 @@ const Home = () => {
         ) : (
           ""
         )}
-        <AddModal />
+        <AddModal addModal={addModal} setAddModal={setAddModal} />
       </IonPage>
     </>
   );
