@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { getWorkoutExerciseList } from "../services/ApiHandler";
 import WorkoutCard from "../components/WorkoutCard";
 import FormModal from "../components/Modals/FormModal";
+import { FormType } from "../models/WorkoutModel";
 
 const Home = () => {
   const { token, userWorkouts, setUserWorkouts, setFormStatus } =
@@ -45,7 +46,7 @@ const Home = () => {
       const newFormModal = !prevAddModal;
 
       // Set form status based on the new value
-      setFormStatus(newFormModal ? "add" : "");
+      setFormStatus(newFormModal ? FormType.Add : FormType.Default);
 
       return newFormModal;
     });
@@ -53,7 +54,7 @@ const Home = () => {
 
   return (
     <>
-      <SideMenu />
+      <SideMenu setFormModal={setFormModal} />
       <IonPage id="main-content">
         <IonToolbar>
           <IonButtons slot="secondary">
@@ -72,7 +73,7 @@ const Home = () => {
               <IonButton routerLink="/signin">Sign In</IonButton>
               <IonButton>Demo Account</IonButton>
             </div>
-          ) : userWorkouts ? (
+          ) : userWorkouts.length > 0 ? (
             userWorkouts.map((excercise) => {
               return (
                 <WorkoutCard

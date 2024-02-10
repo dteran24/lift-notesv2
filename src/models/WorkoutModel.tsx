@@ -1,8 +1,8 @@
 export interface Exercise {
-  id: number;
-  genre?: string;
-  name?: string;
-  description: string;
+  id?: number;
+  genre: string;
+  name: string;
+  description?: string;
 }
 export interface WorkoutExercise{
   sets: number;
@@ -31,4 +31,10 @@ export interface ExerciseHistory{
 export interface WorkoutCategory {
   genre: string;
   workouts: Exercise[];
+}
+export enum FormType{
+  Default="",
+  Add = "add",
+  Update = "update",
+  Exercise = "exercise"
 }

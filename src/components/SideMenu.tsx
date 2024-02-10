@@ -10,9 +10,30 @@ import {
   IonMenuToggle,
   IonIcon,
 } from "@ionic/react";
-import { archive, informationCircle, swapVertical, barbell } from "ionicons/icons";
+import {
+  archive,
+  informationCircle,
+  swapVertical,
+  barbell,
+} from "ionicons/icons";
+import { useWorkoutContext } from "../util/WorkoutContext";
+import { Dispatch, SetStateAction } from "react";
+import { FormType } from "../models/WorkoutModel";
 
-const SideMenu = () => {
+type SideMenuProps = {
+  setFormModal: Dispatch<SetStateAction<boolean>>;
+};
+
+const SideMenu = (props: SideMenuProps) => {
+  const { setFormModal } = props;
+
+  const { setFormStatus } = useWorkoutContext();
+
+  const addExerciseHandler = () => {
+    setFormStatus(FormType.Exercise);
+    setFormModal(true);
+  }
+
   return (
     <IonMenu type="overlay" side="end" contentId="main-content">
       <IonHeader>
@@ -34,8 +55,8 @@ const SideMenu = () => {
               Organize
             </IonItem>
           </IonMenuToggle>
-          <IonMenuToggle>
-            <IonItem routerDirection="forward" disabled>
+          <IonMenuToggle onClick={addExerciseHandler}>
+            <IonItem routerDirection="forward">
               <IonIcon icon={barbell} slot="start" />
               Add Exercise
             </IonItem>

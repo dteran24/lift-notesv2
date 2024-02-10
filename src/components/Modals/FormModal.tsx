@@ -15,6 +15,7 @@ import {
 } from "@ionic/react";
 import { useWorkoutContext } from "../../util/WorkoutContext";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { FormType} from "../../models/WorkoutModel";
 
 import {
   alertCircleOutline,
@@ -88,7 +89,7 @@ const FormModal = (props: AddModalProps) => {
   // useEffect(() => {
   //   setValid(isWorkoutValid(workout));
   // }, [workout]);
-
+  console.log(formStatus)
   return (
     <IonModal isOpen={formModal}>
       <IonHeader>
@@ -97,7 +98,7 @@ const FormModal = (props: AddModalProps) => {
             <IonButton onClick={() => cancelHandler()}>Cancel</IonButton>
           </IonButtons>
           <IonTitle className="ion-text-center">
-            {formStatus === "add" ? "Add Workout" : "Update Workout"}
+            {formStatus === FormType.Add ? "Add Workout" : formStatus === FormType.Update ? "Update Workout": "Add Exercise"}
           </IonTitle>
           <IonButtons slot="end"></IonButtons>
         </IonToolbar>

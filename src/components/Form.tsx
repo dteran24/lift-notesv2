@@ -5,11 +5,15 @@ import {
   IonInput,
   IonButton,
 } from "@ionic/react";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Exercise, WorkoutExercise } from "../models/WorkoutModel";
+import { useState } from "react";
+import { Exercise, FormType, WorkoutExercise } from "../models/WorkoutModel";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import styles from "./Form.module.css";
-import { addWorkoutExercise, updateWorkoutExercise } from "../services/ApiHandler";
+import {
+  addExercise,
+  addWorkoutExercise,
+  updateWorkoutExercise,
+} from "../services/ApiHandler";
 type FormProps = {
   ExerciseList: Exercise[];
   cancelHandler: () => void;
@@ -19,30 +23,48 @@ type FormProps = {
 const Form = (props: FormProps) => {
   const { ExerciseList, cancelHandler, updateID } = props;
   const { formStatus, token } = useWorkoutContext();
-  const [genre, setGenre] = useState("All");
+
   const [nameId, setNameId] = useState<number>();
   const [nameOptions, setNameOptions] = useState(ExerciseList);
-  const [workoutExercise, setWorkoutExercise] = useState<WorkoutExercise>({
+  const [genreInput, setGenreInput] = useState("All");
+  const defaultWorkoutExercise: WorkoutExercise = {
+    creationDate: "",
+    lastUpdated: "",
     reps: 0,
     sets: 0,
     weight: 0,
-  });
+  };
+
+  const defaultExercise: Exercise = {
+    name: "",
+    description: "",
+    genre: genreInput,
+  };
+
+  const [userInput, setUserInput] = useState<WorkoutExercise | Exercise>(
+    formStatus === FormType.Add || formStatus === FormType.Update ? defaultWorkoutExercise : defaultExercise
+  );
+
   const handleInputChange = (
     event: CustomEvent,
-    key: keyof WorkoutExercise
+    key: keyof WorkoutExercise | keyof Exercise
   ) => {
     const newValue = event.detail.value;
-    setWorkoutExercise((prevWorkout) => ({
+    setUserInput((prevWorkout) => ({
       ...prevWorkout!,
       [key]: newValue,
     }));
   };
   const handleGenreChange = (event: CustomEvent) => {
     let selectedGenre = event.detail.value;
+    setGenreInput(selectedGenre);
+    if (isExercise(userInput)) {
+      console.log("settting genre")
+      setUserInput((prev) => ({...prev, genre: selectedGenre}))
+    }
     if (selectedGenre === "All") {
       setNameOptions(ExerciseList);
     } else {
-      setGenre(selectedGenre);
       setNameOptions(
         ExerciseList.filter((exercise) => exercise.genre === selectedGenre)
       );
@@ -52,11 +74,21 @@ const Form = (props: FormProps) => {
   const handleNameChange = (event: CustomEvent) => {
     setNameId(event.detail.value);
   };
+
+  const isWorkoutExercise = (
+    input: WorkoutExercise | Exercise
+  ): input is WorkoutExercise => {
+    return "reps" in input;
+  };
+
+  const isExercise = (input: WorkoutExercise | Exercise): input is Exercise => {
+    return "genre" in input;
+  };
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (formStatus === "add") {
+    if (formStatus === FormType.Add && isWorkoutExercise(userInput)) {
       try {
-        let response = await addWorkoutExercise(nameId!, workoutExercise, token);
+        let response = await addWorkoutExercise(nameId!, userInput, token);
         cancelHandler();
         // clearValues();
 
@@ -64,30 +96,39 @@ const Form = (props: FormProps) => {
       } catch (e) {
         console.error(e);
       }
-    } else if (formStatus === "update") {
+    } else if (formStatus === FormType.Update && isWorkoutExercise(userInput)) {
       try {
-        let response = await updateWorkoutExercise(token, updateID, workoutExercise);
+        let response = await updateWorkoutExercise(token, updateID, userInput);
         cancelHandler();
         console.log(response);
-      }
-      catch (e) {
+      } catch (e) {
         console.error(e);
       }
-    };
-  }
-  
-  const clearValues = () => {
-    setGenre("All");
-    setWorkoutExercise({ weight: 0, sets: 0, reps: 0 });
+    } else if (formStatus === FormType.Exercise && isExercise(userInput)) {
+      try {
+        let response = await addExercise(userInput, token);
+        cancelHandler();
+        console.log(response);
+      } catch (e) {
+        console.error(e);
+      }
+    }
   };
-  console.log(formStatus)
+
+  // const clearValues = () => {
+  //   setGenre("All");
+  //   setWorkoutExercise({ weight: 0, sets: 0, reps: 0 });
+  // };
+  console.log(userInput);
+  console.log(genreInput)
+
   return (
     <form className={styles.form} onSubmit={submitHandler}>
-      {formStatus === "add" ? (
+      {formStatus === FormType.Add && (
         <>
           <IonItem lines="none" className={styles.input}>
             <IonSelect
-              value={genre}
+              value={genreInput}
               onIonChange={handleGenreChange}
               aria-label="genre"
               label="Select a Genre"
@@ -117,41 +158,81 @@ const Form = (props: FormProps) => {
             </IonSelect>
           </IonItem>
         </>
+      )}
+      {formStatus === FormType.Exercise ? (
+        <>
+          <IonItem lines="none" className={styles.input}>
+            <IonSelect
+              value={genreInput}
+              onIonChange={handleGenreChange}
+              aria-label="genre"
+              label="Select a Genre"
+            >
+              <IonSelectOption value="All">All</IonSelectOption>
+              <IonSelectOption value="Chest">Chest</IonSelectOption>
+              <IonSelectOption value="Legs">Legs</IonSelectOption>
+              <IonSelectOption value="Arms">Arms</IonSelectOption>
+              <IonSelectOption value="Back">Back</IonSelectOption>
+              <IonSelectOption value="Shoulders">Shoulders</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem className={styles.input}>
+            <IonInput
+              required
+              aria-label="name"
+              label="Name"
+              type="text"
+              labelPlacement="stacked"
+              onIonInput={(e) => handleInputChange(e, "name")}
+            />
+          </IonItem>
+          <IonItem className={styles.input}>
+            <IonInput
+              required
+              aria-label="description"
+              label="Description"
+              type="text"
+              labelPlacement="stacked"
+              onIonInput={(e) => handleInputChange(e, "description")}
+            />
+          </IonItem>
+        </>
       ) : (
-        ""
+        <>
+          <IonItem className={styles.input}>
+            <IonInput
+              required
+              aria-label="sets"
+              label="Sets"
+              type="number"
+              labelPlacement="stacked"
+              onIonInput={(e) => handleInputChange(e, "sets")}
+            />
+          </IonItem>
+          <IonItem className={styles.input}>
+            <IonInput
+              required
+              aria-label="reps"
+              label="Reps"
+              type="number"
+              labelPlacement="stacked"
+              onIonInput={(e) => handleInputChange(e, "reps")}
+            />
+          </IonItem>
+
+          <IonItem className={styles.input}>
+            <IonInput
+              required
+              aria-label="weight"
+              label="Weight"
+              type="number"
+              labelPlacement="stacked"
+              onIonInput={(e) => handleInputChange(e, "weight")}
+            />
+          </IonItem>
+        </>
       )}
 
-      <IonItem className={styles.input}>
-        <IonInput
-          required
-          aria-label="sets"
-          label="Sets"
-          type="number"
-          labelPlacement="stacked"
-          onIonInput={(e) => handleInputChange(e, "sets")}
-        />
-      </IonItem>
-      <IonItem className={styles.input}>
-        <IonInput
-          required
-          aria-label="reps"
-          label="Reps"
-          type="number"
-          labelPlacement="stacked"
-          onIonInput={(e) => handleInputChange(e, "reps")}
-        />
-      </IonItem>
-
-      <IonItem className={styles.input}>
-        <IonInput
-          required
-          aria-label="weight"
-          label="Weight"
-          type="number"
-          labelPlacement="stacked"
-          onIonInput={(e) => handleInputChange(e, "weight")}
-        />
-      </IonItem>
       <IonButton type="submit" shape="round" expand="full" fill="solid">
         Submit
       </IonButton>

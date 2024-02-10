@@ -12,12 +12,12 @@ import {
 } from "@ionic/react";
 
 import {
-  createOutline,
-  trash,
   checkmarkCircleOutline,
   informationCircleOutline,
+  colorWandOutline,
+  trashOutline
 } from "ionicons/icons";
-import { Exercise, WorkoutExerciseList } from "../models/WorkoutModel";
+import { FormType, WorkoutExerciseList } from "../models/WorkoutModel";
 import styles from "./workoutCard.module.css";
 import { removeWorkoutExercise } from "../services/ApiHandler";
 import { useWorkoutContext } from "../util/WorkoutContext";
@@ -35,7 +35,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
   const [present] = useIonToast();
 
   const editHandler = () => {
-    setFormStatus("update");
+    setFormStatus(FormType.Update);
     setUpdateID(workoutItem.id);
     setFormModal(true);
   };
@@ -99,9 +99,10 @@ const WorkoutCard = (props: WorkoutCardProps) => {
       </IonCardContent>
       <IonActionSheet
         trigger={workoutItem.id.toString()}
-        header="Actions"
+        header="Card Actions"
         buttons={[
           {
+            icon: trashOutline,
             text: "Delete",
             role: "destructive",
             data: {
@@ -110,6 +111,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
             handler: () => deleteHandler(workoutItem.id),
           },
           {
+            icon: colorWandOutline,
             text: "Update",
             data: {
               action: "update",
@@ -117,7 +119,8 @@ const WorkoutCard = (props: WorkoutCardProps) => {
             handler: () => editHandler(),
           },
           {
-            text: "More Info",
+            icon:informationCircleOutline,
+            text: "Information",
             data: {
               action: "information",
             },

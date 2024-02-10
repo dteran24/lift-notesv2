@@ -20,9 +20,10 @@ export function Login(login: UserSignIn) {
   });
 }
 
-export function addExercise(exercise: Exercise) {
+export function addExercise(exercise: Exercise, token:string) {
   return axiosProject.post("/exercise/add", exercise, {
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   });
