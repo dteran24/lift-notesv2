@@ -43,12 +43,12 @@ const SideMenu = (props: SideMenuProps) => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonList lines="inset">
-          <IonMenuToggle>
+          {/* <IonMenuToggle>
             <IonItem routerLink="/history" routerDirection="forward" disabled>
               <IonIcon icon={archive} slot="start" />
               View History
             </IonItem>
-          </IonMenuToggle>
+          </IonMenuToggle> */}
           <IonMenuToggle>
             <IonItem routerDirection="forward" disabled>
               <IonIcon icon={swapVertical} slot="start" />

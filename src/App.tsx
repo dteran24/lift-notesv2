@@ -41,7 +41,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="" component={Home} /> 
-        <Route path="/profile" component={Profile} />
+        {/* <Route path="/profile" component={Profile} /> */}
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={CreateUser}/>
       </IonRouterOutlet>

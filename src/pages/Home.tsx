@@ -54,24 +54,29 @@ const Home = () => {
 
   return (
     <>
-      <SideMenu setFormModal={setFormModal} />
+      {token && <SideMenu setFormModal={setFormModal} />}
       <IonPage id="main-content">
-        <IonToolbar>
-          <IonButtons slot="secondary">
-            <IonButton routerLink="/profile">
-              <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
-            </IonButton>
-          </IonButtons>
-          <IonButtons slot="primary">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle>Home</IonTitle>
-        </IonToolbar>
-        <IonContent>
+        {token && (
+          <IonToolbar>
+            {/* <IonButtons slot="secondary">
+              <IonButton routerLink="/profile">
+                <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
+              </IonButton>
+            </IonButtons> */}
+            <IonButtons slot="primary">
+              <IonMenuButton />
+            </IonButtons>
+            <IonTitle>Home</IonTitle>
+          </IonToolbar>
+        )}
+        <IonContent class="ion-padding">
           {!token ? (
-            <div className={styles.buttonGroup}>
-              <IonButton routerLink="/signin">Sign In</IonButton>
-              <IonButton>Demo Account</IonButton>
+            <div className={styles.loginGroup}>
+              <h1 className={styles.header}>Lift Notes</h1>
+              <div className={styles.buttonGroup}>
+                <IonButton routerLink="/signin">Sign In</IonButton>
+                <IonButton>Demo Account</IonButton>
+              </div>
             </div>
           ) : userWorkouts.length > 0 ? (
             userWorkouts.map((excercise) => {
@@ -97,7 +102,11 @@ const Home = () => {
         ) : (
           ""
         )}
-        <FormModal formModal={formModal} setFormModal={setFormModal} updateID={updateID} />
+        <FormModal
+          formModal={formModal}
+          setFormModal={setFormModal}
+          updateID={updateID}
+        />
       </IonPage>
     </>
   );

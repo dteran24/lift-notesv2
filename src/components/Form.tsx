@@ -5,7 +5,7 @@ import {
   IonInput,
   IonButton,
 } from "@ionic/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Exercise, FormType, WorkoutExercise } from "../models/WorkoutModel";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import styles from "./Form.module.css";
@@ -42,7 +42,9 @@ const Form = (props: FormProps) => {
   };
 
   const [userInput, setUserInput] = useState<WorkoutExercise | Exercise>(
-    formStatus === FormType.Add || formStatus === FormType.Update ? defaultWorkoutExercise : defaultExercise
+    formStatus === FormType.Add || formStatus === FormType.Update
+      ? defaultWorkoutExercise
+      : defaultExercise
   );
 
   const handleInputChange = (
@@ -59,8 +61,8 @@ const Form = (props: FormProps) => {
     let selectedGenre = event.detail.value;
     setGenreInput(selectedGenre);
     if (isExercise(userInput)) {
-      console.log("settting genre")
-      setUserInput((prev) => ({...prev, genre: selectedGenre}))
+      console.log("settting genre");
+      setUserInput((prev) => ({ ...prev, genre: selectedGenre }));
     }
     if (selectedGenre === "All") {
       setNameOptions(ExerciseList);
@@ -84,14 +86,13 @@ const Form = (props: FormProps) => {
   const isExercise = (input: WorkoutExercise | Exercise): input is Exercise => {
     return "genre" in input;
   };
+
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     if (formStatus === FormType.Add && isWorkoutExercise(userInput)) {
       try {
         let response = await addWorkoutExercise(nameId!, userInput, token);
         cancelHandler();
-        // clearValues();
-
         console.log(response.data);
       } catch (e) {
         console.error(e);
@@ -115,12 +116,23 @@ const Form = (props: FormProps) => {
     }
   };
 
-  // const clearValues = () => {
-  //   setGenre("All");
-  //   setWorkoutExercise({ weight: 0, sets: 0, reps: 0 });
-  // };
-  console.log(userInput);
-  console.log(genreInput)
+  const disableButtonHandler = () => {
+    if (isWorkoutExercise(userInput) && formStatus === FormType.Add) {
+      return (
+        nameId === undefined
+      );
+    } else if (isExercise(userInput)) {
+      return userInput.name === "" || genreInput === "All";
+    }
+  
+    return false;
+  };
+  
+  useEffect(() => {
+    disableButtonHandler();
+    console.log(userInput)
+  }, [userInput]);
+
 
   return (
     <form className={styles.form} onSubmit={submitHandler}>
@@ -190,7 +202,7 @@ const Form = (props: FormProps) => {
             <IonInput
               required
               aria-label="description"
-              label="Description"
+              label="Description (Optional)"
               type="text"
               labelPlacement="stacked"
               onIonInput={(e) => handleInputChange(e, "description")}
@@ -233,7 +245,13 @@ const Form = (props: FormProps) => {
         </>
       )}
 
-      <IonButton type="submit" shape="round" expand="full" fill="solid">
+      <IonButton
+        type="submit"
+        shape="round"
+        expand="full"
+        fill="solid"
+        disabled={disableButtonHandler()}
+      >
         Submit
       </IonButton>
     </form>

@@ -4,7 +4,6 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonIcon,
   IonItem,
   IonList,
   useIonToast,
@@ -32,20 +31,12 @@ const WorkoutCard = (props: WorkoutCardProps) => {
   const { workoutItem, setFormModal, setUpdateID } = props;
   const { token, setUserWorkouts, setFormStatus } = useWorkoutContext();
 
-  const [present] = useIonToast();
-
   const editHandler = () => {
     setFormStatus(FormType.Update);
     setUpdateID(workoutItem.id);
     setFormModal(true);
   };
-  // const onClickHistoryModalHandler = (workout: Exercise) => {
-  //   setSelectedCard(workout);
-  //   setHistoryModal(true);
-  //   if (slidingRef.current) {
-  //     slidingRef.current.close();
-  //   }
-  // };
+
   const deleteHandler = async (id: number) => {
     if (id !== undefined) {
       let response = await removeWorkoutExercise(id, token);
@@ -53,17 +44,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
       console.log(response.data);
     }
   };
-  const presentToast = (position: "top" | "middle" | "bottom") => {
-    present({
-      message: "Workout Deleted!",
-      duration: 1500,
-      position: position,
-      icon: checkmarkCircleOutline,
-      color: "success",
-      animated: true,
-    });
-  };
-  console.log(workoutItem);
+
   return (
     <IonCard id={workoutItem.id.toString()} className={styles.card}>
       <IonCardHeader>
@@ -94,7 +75,6 @@ const WorkoutCard = (props: WorkoutCardProps) => {
               {workoutItem.weight}
             </div>
           </IonItem>
-          {/* <IonItem>{`Notes: ${workoutItem.notes}`}</IonItem> */}
         </IonList>
       </IonCardContent>
       <IonActionSheet
