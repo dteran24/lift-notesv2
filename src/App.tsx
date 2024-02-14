@@ -1,14 +1,10 @@
-import { Redirect, Route } from 'react-router-dom';
+import {  Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
   setupIonicReact
 } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
@@ -29,10 +25,9 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { IonReactRouter } from '@ionic/react-router';
-import Profile from './pages/Profile';
 import SignIn from './pages/SignIn';
 import CreateUser from './pages/CreateUser';
+import Information from './pages/Information';
 
 setupIonicReact();
 //leave path empty for home
@@ -40,8 +35,8 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+        <Route path="/information/:id" component={Information} />
         <Route path="" component={Home} /> 
-        {/* <Route path="/profile" component={Profile} /> */}
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={CreateUser}/>
       </IonRouterOutlet>

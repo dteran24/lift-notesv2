@@ -7,15 +7,14 @@ import {
   IonFabButton,
   IonHeader,
   IonIcon,
+  IonList,
   IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import WorkoutList from "../components/WorkoutList";
-import { personCircle, add } from "ionicons/icons";
+import { add } from "ionicons/icons";
 import { useWorkoutContext } from "../util/WorkoutContext";
-import AddModal from "../components/Modals/FormModal";
 import SideMenu from "../components/SideMenu";
 import styles from "./Home.module.css";
 import { useEffect, useState } from "react";
@@ -57,17 +56,19 @@ const Home = () => {
       {token && <SideMenu setFormModal={setFormModal} />}
       <IonPage id="main-content">
         {token && (
-          <IonToolbar>
-            {/* <IonButtons slot="secondary">
-              <IonButton routerLink="/profile">
-                <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
-              </IonButton>
-            </IonButtons> */}
-            <IonButtons slot="primary">
-              <IonMenuButton />
-            </IonButtons>
-            <IonTitle>Home</IonTitle>
-          </IonToolbar>
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle>Home</IonTitle>
+              <IonButtons slot="primary">
+                <IonMenuButton />
+              </IonButtons>
+            </IonToolbar>
+
+            {/* <IonToolbar>
+            
+              <IonSearchbar></IonSearchbar>
+            </IonToolbar> */}
+          </IonHeader>
         )}
         <IonContent class="ion-padding">
           {!token ? (
@@ -79,16 +80,18 @@ const Home = () => {
               </div>
             </div>
           ) : userWorkouts.length > 0 ? (
-            userWorkouts.map((excercise) => {
-              return (
-                <WorkoutCard
-                  workoutItem={excercise}
-                  key={excercise.id}
-                  setFormModal={setFormModal}
-                  setUpdateID={setUpdateID}
-                />
-              );
-            })
+            <IonList lines="none">
+              {userWorkouts.map((excercise) => {
+                return (
+                  <WorkoutCard
+                    key={excercise.id}
+                    workoutItem={excercise}
+                    setFormModal={setFormModal}
+                    setUpdateID={setUpdateID}
+                  />
+                );
+              })}
+            </IonList>
           ) : (
             "No items Found"
           )}

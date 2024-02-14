@@ -8,10 +8,10 @@ import {
   IonList,
   useIonToast,
   IonActionSheet,
+  useIonRouter,
 } from "@ionic/react";
 
 import {
-  checkmarkCircleOutline,
   informationCircleOutline,
   colorWandOutline,
   trashOutline
@@ -21,6 +21,7 @@ import styles from "./workoutCard.module.css";
 import { removeWorkoutExercise } from "../services/ApiHandler";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import { Dispatch, SetStateAction } from "react";
+
 interface WorkoutCardProps {
   workoutItem: WorkoutExerciseList;
   setFormModal: Dispatch<SetStateAction<boolean>>;
@@ -30,6 +31,7 @@ interface WorkoutCardProps {
 const WorkoutCard = (props: WorkoutCardProps) => {
   const { workoutItem, setFormModal, setUpdateID } = props;
   const { token, setUserWorkouts, setFormStatus } = useWorkoutContext();
+  const router = useIonRouter();
 
   const editHandler = () => {
     setFormStatus(FormType.Update);
@@ -44,6 +46,11 @@ const WorkoutCard = (props: WorkoutCardProps) => {
       console.log(response.data);
     }
   };
+
+  const informationHandler = () => {
+    router.push(`/information/${workoutItem.id.toString()}`)
+    console.log("Navigating to information page with ID:", workoutItem.id.toString());
+  }
 
   return (
     <IonCard id={workoutItem.id.toString()} className={styles.card}>
@@ -104,6 +111,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
             data: {
               action: "information",
             },
+            handler: () => informationHandler()
           },
           {
             text: "Cancel",

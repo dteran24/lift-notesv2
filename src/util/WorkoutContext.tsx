@@ -54,7 +54,6 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
       if (typeof response.data !== "string") {
         setExerciseList(response.data);
       }
-      console.log("response is", response);
     };
 
     if (token || formStatus === FormType.Exercise) {

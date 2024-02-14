@@ -49,12 +49,6 @@ const SideMenu = (props: SideMenuProps) => {
               View History
             </IonItem>
           </IonMenuToggle> */}
-          <IonMenuToggle>
-            <IonItem routerDirection="forward" disabled>
-              <IonIcon icon={swapVertical} slot="start" />
-              Organize
-            </IonItem>
-          </IonMenuToggle>
           <IonMenuToggle onClick={addExerciseHandler}>
             <IonItem routerDirection="forward">
               <IonIcon icon={barbell} slot="start" />

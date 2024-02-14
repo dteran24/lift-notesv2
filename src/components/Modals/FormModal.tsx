@@ -34,62 +34,11 @@ const FormModal = (props: AddModalProps) => {
   const { formModal, setFormModal, updateID } = props;
   const { exerciseList, formStatus } = useWorkoutContext();
 
-  const [valid, setValid] = useState<boolean>(false);
-  // const submitHandler = () => {
-  //   if (valid) {
-  //     addWorkout(workout)
-  //       .then((response) => console.log(response.data))
-  //       .catch((error) => console.log(error))
-  //       .finally(() => {
-  //         setAddModal(false);
-  //         setIsAdded(true);
-  //         setWorkout({});
-  //         setValid(false);
-  //         presentToast("bottom");
-  //       });
-  //   } else {
-  //     presentToast("bottom");
-  //   }
-  // };
   const cancelHandler = () => {
     setFormModal(false);
   };
-  // const [present] = useIonToast();
 
-  // const presentToast = (position: "top" | "middle" | "bottom") => {
-  //   if (valid) {
-  //     present({
-  //       message: "Workout Added!",
-  //       duration: 1500,
-  //       position: position,
-  //       icon: checkmarkCircleOutline,
-  //       color: "success",
-  //       animated: true
-  //     });
-  //   } else {
-  //     present({
-  //       message: "Missing Information!",
-  //       duration: 1500,
-  //       position: position,
-  //       icon: alertCircleOutline,
-  //       color: "danger",
-  //       animated: true
-  //     });
-  //   }
-  // };
-  // function isWorkoutValid(workout: Exercise) {
-  //   return (
-  //     workout.name !== undefined &&
-  //     workout.reps !== undefined &&
-  //     workout.weight !== undefined &&
-  //     workout.sets !== undefined &&
-  //     workout.genre !== undefined
-  //   );
-  // }
-  // useEffect(() => {
-  //   setValid(isWorkoutValid(workout));
-  // }, [workout]);
-  console.log(formStatus)
+
   return (
     <IonModal isOpen={formModal}>
       <IonHeader>

@@ -32,6 +32,7 @@ const SignIn = () => {
     try {
       let response = await Login(signInData);
       setToken(response.data.jwt);
+      localStorage.setItem('token', response.data.jwt);
       
       
       console.log(response.data);

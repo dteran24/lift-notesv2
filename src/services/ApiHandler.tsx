@@ -20,7 +20,7 @@ export function Login(login: UserSignIn) {
   });
 }
 
-export function addExercise(exercise: Exercise, token:string) {
+export function addExercise(exercise: Exercise, token: string) {
   return axiosProject.post("/exercise/add", exercise, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -91,6 +91,17 @@ export function updateWorkoutExercise(
       },
     }
   );
+}
+
+export function getWorkoutExerciseById(
+  token: string,
+  workoutExerciseID: number
+) {
+  return axiosProject.get(`/workoutExercise/${workoutExerciseID}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 // export function getWorkoutList() {
