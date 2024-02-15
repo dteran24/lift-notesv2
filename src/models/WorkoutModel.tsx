@@ -12,7 +12,7 @@ export interface WorkoutExercise{
   lastUpdated: string;
 }
 
-export interface WorkoutExerciseList{
+export interface WorkoutExerciseAndExercise{
   exercise: Exercise;
   id: number;
   sets: number;

@@ -61,7 +61,6 @@ const Form = (props: FormProps) => {
     let selectedGenre = event.detail.value;
     setGenreInput(selectedGenre);
     if (isExercise(userInput)) {
-      console.log("settting genre");
       setUserInput((prev) => ({ ...prev, genre: selectedGenre }));
     }
     if (selectedGenre === "All") {

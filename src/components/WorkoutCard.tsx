@@ -49,7 +49,6 @@ const WorkoutCard = (props: WorkoutCardProps) => {
 
   const informationHandler = () => {
     router.push(`/information/${workoutItem.id.toString()}`)
-    console.log("Navigating to information page with ID:", workoutItem.id.toString());
   }
 
   return (

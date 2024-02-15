@@ -1,45 +1,74 @@
-import { IonContent, IonPage } from "@ionic/react";
+import {
+  IonBackButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonLabel,
+  IonPage,
+  IonSegment,
+  IonSegmentButton,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 import { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { getWorkoutExerciseById } from "../services/ApiHandler";
-import { useWorkoutContext } from "../util/WorkoutContext";
+import { WorkoutExerciseAndExercise } from "../models/WorkoutModel";
 
 const Information = () => {
-  const [loading, setLoading] = useState(true);
-
   const match = useRouteMatch<{ id: string }>({
     path: "/information/:id",
     exact: true,
   });
   const id = match?.params.id;
-
-  console.log(match?.params);
+  const [selectedSegment, setSelectedSegment] = useState<string>("history");
+  const [data, setData] = useState<WorkoutExerciseAndExercise>();
 
   useEffect(() => {
     const fetchData = async () => {
       let token = localStorage.getItem("token");
-      if (id && token) {
+      if (id && token && !data) {
         try {
           let response = await getWorkoutExerciseById(token, parseInt(id));
-          console.log(response);
+          setData(response.data);
         } catch (error) {
           console.error("Error fetching data:", error);
-        } finally {
-          setLoading(false);
         }
       }
     };
 
     fetchData();
-  }, [id]);
-
-  if (loading) {
-    return <div>Loading....</div>;
-  }
+  }, []);
+  const handleSegmentChange = (event: CustomEvent) => {
+    setSelectedSegment(event.detail.value || "history");
+  };
 
   return (
     <IonPage>
-      <IonContent>info here</IonContent>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton></IonBackButton>
+          </IonButtons>
+          <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
+            <IonSegmentButton value="history">
+              <IonLabel>History</IonLabel>
+            </IonSegmentButton>
+            <IonSegmentButton value="exercise">
+              <IonLabel>Exercise</IonLabel>
+            </IonSegmentButton>
+          </IonSegment>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        {selectedSegment === "history" && <div>History Tab</div>}
+        {selectedSegment === "exercise" && (
+          <div>
+            <h2>{data?.exercise.name}</h2>
+            <p>{data?.exercise.description}</p>
+          </div>
+        )}
+      </IonContent>
     </IonPage>
   );
 };
