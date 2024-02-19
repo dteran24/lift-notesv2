@@ -5,6 +5,7 @@ export interface Exercise {
   description?: string;
 }
 export interface WorkoutExercise{
+  id?: number;
   sets: number;
   reps: number;
   weight: number;
@@ -22,8 +23,8 @@ export interface WorkoutExerciseAndExercise{
   lastUpdated: string;
 }
 export interface ExerciseHistory{
-  date: string;
-  notes: string;
+  id: number;
+  creationDate: string;
   reps: number;
   sets: number;
   weight: number;

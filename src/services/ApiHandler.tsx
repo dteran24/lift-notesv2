@@ -104,6 +104,16 @@ export function getWorkoutExerciseById(
   });
 }
 
+export function getHistoryByUserId(
+  token: string
+) {
+  return axiosProject.get('/history/all', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 // export function getWorkoutList() {
 //   return axiosProject.get("");
 // }

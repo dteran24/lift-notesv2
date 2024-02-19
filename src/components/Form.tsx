@@ -91,7 +91,9 @@ const Form = (props: FormProps) => {
     if (formStatus === FormType.Add && isWorkoutExercise(userInput)) {
       try {
         let response = await addWorkoutExercise(nameId!, userInput, token);
-        cancelHandler();
+        if (response) {
+          cancelHandler();
+        }
         console.log(response.data);
       } catch (e) {
         console.error(e);
@@ -99,7 +101,9 @@ const Form = (props: FormProps) => {
     } else if (formStatus === FormType.Update && isWorkoutExercise(userInput)) {
       try {
         let response = await updateWorkoutExercise(token, updateID, userInput);
-        cancelHandler();
+        if (response) {
+          cancelHandler();
+        }
         console.log(response);
       } catch (e) {
         console.error(e);
@@ -107,7 +111,10 @@ const Form = (props: FormProps) => {
     } else if (formStatus === FormType.Exercise && isExercise(userInput)) {
       try {
         let response = await addExercise(userInput, token);
-        cancelHandler();
+        if (response) {
+          cancelHandler();
+        }
+       
         console.log(response);
       } catch (e) {
         console.error(e);
@@ -118,7 +125,7 @@ const Form = (props: FormProps) => {
   const disableButtonHandler = () => {
     if (isWorkoutExercise(userInput) && formStatus === FormType.Add) {
       return (
-        nameId === undefined
+        nameId === undefined || userInput.reps === 0 || userInput.sets === 0
       );
     } else if (isExercise(userInput)) {
       return userInput.name === "" || genreInput === "All";

@@ -16,14 +16,14 @@ import {
   colorWandOutline,
   trashOutline
 } from "ionicons/icons";
-import { FormType, WorkoutExerciseList } from "../models/WorkoutModel";
+import { FormType, WorkoutExerciseAndExercise } from "../models/WorkoutModel";
 import styles from "./workoutCard.module.css";
 import { removeWorkoutExercise } from "../services/ApiHandler";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import { Dispatch, SetStateAction } from "react";
 
 interface WorkoutCardProps {
-  workoutItem: WorkoutExerciseList;
+  workoutItem: WorkoutExerciseAndExercise;
   setFormModal: Dispatch<SetStateAction<boolean>>;
   setUpdateID: Dispatch<SetStateAction<number>>;
 }

@@ -28,14 +28,25 @@ const Home = () => {
     useWorkoutContext();
   const [formModal, setFormModal] = useState(false);
   const [updateID, setUpdateID] = useState(0);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchData = async (token: string) => {
-      let response = await getWorkoutExerciseList(token);
-      setUserWorkouts(response.data);
+      try {
+        let response = await getWorkoutExerciseList(token);
+        if (response) {
+          setUserWorkouts(response.data);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    
+     
     };
     if (token) {
-      fetchData(token);
+            fetchData(token);
     }
   }, [token, formModal]);
 
@@ -50,6 +61,9 @@ const Home = () => {
       return newFormModal;
     });
   };
+  if (loading && token) {
+    return <div>loading...</div>
+  }
 
   return (
     <>
