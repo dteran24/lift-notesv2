@@ -7,6 +7,7 @@ import {
   IonPage,
   IonSegment,
   IonSegmentButton,
+  IonSpinner,
   IonToolbar,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
@@ -30,6 +31,7 @@ const Information = () => {
   const [selectedSegment, setSelectedSegment] = useState<string>("history");
   const [data, setData] = useState<WorkoutExerciseAndExercise>();
   const [history, setHistory] = useState<ExerciseHistory[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +45,7 @@ const Information = () => {
           setData(response.data);
 
           setHistory(responseHistory.data);
+          setLoading(false);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -54,6 +57,10 @@ const Information = () => {
   const handleSegmentChange = (event: CustomEvent) => {
     setSelectedSegment(event.detail.value || "history");
   };
+
+  if (loading) {
+    return <div className={styles.spinnerContainer}><IonSpinner name="dots" color="primary"></IonSpinner></div>
+  }
 
   return (
     <IonPage>

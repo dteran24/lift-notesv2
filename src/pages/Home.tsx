@@ -10,10 +10,11 @@ import {
   IonList,
   IonMenuButton,
   IonPage,
+  IonSpinner,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { add } from "ionicons/icons";
+import { add, sadOutline } from "ionicons/icons";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import SideMenu from "../components/SideMenu";
 import styles from "./Home.module.css";
@@ -30,7 +31,6 @@ const Home = () => {
   const [updateID, setUpdateID] = useState(0);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const fetchData = async (token: string) => {
       try {
@@ -40,13 +40,11 @@ const Home = () => {
           setLoading(false);
         }
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-    
-     
     };
     if (token) {
-            fetchData(token);
+      fetchData(token);
     }
   }, [token, formModal]);
 
@@ -62,7 +60,11 @@ const Home = () => {
     });
   };
   if (loading && token) {
-    return <div>loading...</div>
+    return (
+      <div className={styles.spinnerContainer}>
+        <IonSpinner name="dots" color="primary"></IonSpinner>
+      </div>
+    );
   }
 
   return (
@@ -107,7 +109,10 @@ const Home = () => {
               })}
             </IonList>
           ) : (
-            "No items Found"
+            <div className={styles.iconContainer}>
+              <IonIcon icon={sadOutline} aria-hidden="true" color="danger"></IonIcon>
+              <span>There are no workouts!</span>
+            </div>
           )}
         </IonContent>
         {token ? (

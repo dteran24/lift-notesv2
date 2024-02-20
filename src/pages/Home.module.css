@@ -1,14 +1,35 @@
-
-.buttonGroup{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.spinnerContainer {
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ion-spinner {
+  width: 80px;
+  height: 80px;
+}
+.iconContainer ion-icon{
+    font-size: 7rem;
 }
 
-.header{
-   
+.iconContainer {
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem;
 }
-.loginGroup{
-    text-align: center;
-    margin-top: 40%;
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header {
+}
+.loginGroup {
+  text-align: center;
+  margin-top: 40%;
 }

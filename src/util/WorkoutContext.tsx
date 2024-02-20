@@ -8,7 +8,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { Exercise, FormType, WorkoutExercise } from "../models/WorkoutModel";
+import { Exercise, FormType, WorkoutExercise, WorkoutExerciseAndExercise } from "../models/WorkoutModel";
 import { getExerciseList } from "../services/ApiHandler";
 
 
@@ -16,8 +16,8 @@ interface WorkoutContextType {
   token: string;
   setToken: Dispatch<SetStateAction<string>>;
   exerciseList: Exercise[];
-  userWorkouts: WorkoutExercise[];
-  setUserWorkouts: Dispatch<SetStateAction<WorkoutExercise[]>>;
+  userWorkouts: WorkoutExerciseAndExercise[];
+  setUserWorkouts: Dispatch<SetStateAction<WorkoutExerciseAndExercise[]>>;
   formStatus: string;
   setFormStatus: Dispatch<SetStateAction<FormType>>;
 }
@@ -41,7 +41,7 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
 }) => {
  
  
-  const [userWorkouts, setUserWorkouts] = useState<WorkoutExercise[]>([]);
+  const [userWorkouts, setUserWorkouts] = useState<WorkoutExerciseAndExercise[]>([]);
   const [token, setToken] = useState("");
   const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
   const [formStatus, setFormStatus] = useState<FormType>(FormType.Default);

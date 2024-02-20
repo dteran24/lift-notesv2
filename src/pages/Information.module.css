@@ -20,3 +20,14 @@
 .table tr:nth-child(even){
 background-color: #f4f5f8;
 }
+.spinnerContainer{
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.spinnerContainer ion-spinner{
+    width: 80px;
+    height: 80px;
+}
