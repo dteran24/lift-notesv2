@@ -1,19 +1,12 @@
 import {
   IonBackButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
   IonContent,
   IonHeader,
-  IonItem,
   IonLabel,
-  IonList,
   IonPage,
   IonSegment,
   IonSegmentButton,
-  IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
@@ -26,6 +19,7 @@ import {
   ExerciseHistory,
   WorkoutExerciseAndExercise,
 } from "../models/WorkoutModel";
+import styles from "./Information.module.css";
 
 const Information = () => {
   const match = useRouteMatch<{ id: string }>({
@@ -78,26 +72,37 @@ const Information = () => {
           </IonSegment>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent class="ion-padding">
         {selectedSegment === "history" && history.length > 0 ? (
-          <IonList>
-            {history.map((item) => {
-              return (
-                <IonItem key={item.id}>
-                  <IonCard>
-                    <IonCardHeader>
-                      <IonCardTitle>{item.creationDate}</IonCardTitle>
-                    </IonCardHeader>
-                    <IonCardContent>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                {Object.keys(history[0]).map((label) => {
+                  if (label === "creationDate") {
+                    label = "Date"
+                  }
 
-                    </IonCardContent>
-                  </IonCard>
-                </IonItem>
-              );
-            })}
-          </IonList>
+              
+                  return <th>{label.toUpperCase()}</th>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((item) => {
+                return (
+                  <tr key={item.id}>
+                    {Object.values(item).map((value) => {
+                      return <td>{value}</td>;
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : selectedSegment === "history" ? (
+          "No Data!"
         ) : (
-          "No History!"
+          ""
         )}
 
         {selectedSegment === "exercise" && (

@@ -45,7 +45,7 @@ const CreateUser = () => {
     event: CustomEvent,
     key: keyof UserRegistration
   ) => {
-    const newValue = event.detail.value;
+    const newValue = event.detail.value.trim();
     setUserData((prev) => ({
       ...prev!,
       [key]: newValue,

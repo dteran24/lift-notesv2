@@ -1,0 +1,22 @@
+.table{
+    width: 100%;
+}
+.table thead{
+ background-color: #3880ff;
+
+}
+.table th{
+    padding: .5rem;
+    color: white;
+}
+
+.table tbody{
+    text-align: center;
+    font-size: 1em;
+}
+.table td{
+    padding: .5rem 0;
+}
+.table tr:nth-child(even){
+background-color: #f4f5f8;
+}

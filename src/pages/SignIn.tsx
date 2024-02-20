@@ -49,7 +49,7 @@ const SignIn = () => {
   };
 
   const handleInputChange = (event: CustomEvent, key: keyof UserSignIn) => {
-    const newValue = event.detail.value;
+    const newValue = event.detail.value.trim();
     setSignInData((prev) => ({
       ...prev!,
       [key]: newValue,
