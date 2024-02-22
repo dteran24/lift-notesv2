@@ -27,8 +27,13 @@ ion-spinner {
   justify-content: center;
 }
 
-.header {
+ion-searchbar.customSearchbar {
+ padding-top: 12px;
 }
+.buttons{
+  padding-top: 10px;
+}
+
 .loginGroup {
   text-align: center;
   margin-top: 40%;

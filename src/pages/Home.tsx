@@ -5,16 +5,18 @@ import {
   IonContent,
   IonFab,
   IonFabButton,
+  IonFooter,
   IonHeader,
   IonIcon,
   IonList,
   IonMenuButton,
   IonPage,
+  IonSearchbar,
   IonSpinner,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { add, sadOutline } from "ionicons/icons";
+import { sadOutline, addCircleOutline, searchOutline } from "ionicons/icons";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import SideMenu from "../components/SideMenu";
 import styles from "./Home.module.css";
@@ -71,21 +73,16 @@ const Home = () => {
     <>
       {token && <SideMenu setFormModal={setFormModal} />}
       <IonPage id="main-content">
-        {token && (
-          <IonHeader>
-            <IonToolbar>
-              <IonTitle>Home</IonTitle>
-              <IonButtons slot="primary">
-                <IonMenuButton />
-              </IonButtons>
-            </IonToolbar>
-
-            {/* <IonToolbar>
-            
-              <IonSearchbar></IonSearchbar>
-            </IonToolbar> */}
-          </IonHeader>
-        )}
+        {token &&
+          // <IonHeader>
+          //   <IonToolbar>
+          //     <IonTitle>Home</IonTitle>
+          //     <IonButtons slot="primary">
+          //       <IonMenuButton />
+          //     </IonButtons>
+          //   </IonToolbar>
+          // </IonHeader>
+          ""}
         <IonContent class="ion-padding">
           {!token ? (
             <div className={styles.loginGroup}>
@@ -96,39 +93,59 @@ const Home = () => {
               </div>
             </div>
           ) : userWorkouts.length > 0 ? (
-            <IonList lines="none">
-              {userWorkouts.map((excercise) => {
-                return (
-                  <WorkoutCard
-                    key={excercise.id}
-                    workoutItem={excercise}
-                    setFormModal={setFormModal}
-                    setUpdateID={setUpdateID}
-                  />
-                );
-              })}
-            </IonList>
+            <>
+              <IonList lines="none">
+                {userWorkouts.map((excercise) => {
+                  return (
+                    <WorkoutCard
+                      key={excercise.id}
+                      workoutItem={excercise}
+                      setFormModal={setFormModal}
+                      setUpdateID={setUpdateID}
+                    />
+                  );
+                })}
+              </IonList>
+            </>
           ) : (
             <div className={styles.iconContainer}>
-              <IonIcon icon={sadOutline} aria-hidden="true" color="danger"></IonIcon>
+              <IonIcon
+                icon={sadOutline}
+                aria-hidden="true"
+                color="danger"
+              ></IonIcon>
               <span>There are no workouts!</span>
             </div>
           )}
         </IonContent>
-        {token ? (
-          <IonFab slot="fixed" vertical="bottom" horizontal="end">
-            <IonFabButton onClick={modalHandler}>
-              <IonIcon icon={add}></IonIcon>
-            </IonFabButton>
-          </IonFab>
-        ) : (
-          ""
-        )}
+        {token
+          ? // "<IonFab slot="fixed" vertical="bottom" horizontal="end">
+            //   <IonFabButton onClick={modalHandler}>
+            //     <IonIcon icon={add}></IonIcon>
+            //   </IonFabButton>
+            // </IonFab>
+            ""
+          : ""}
         <FormModal
           formModal={formModal}
           setFormModal={setFormModal}
           updateID={updateID}
         />
+        {token && (
+          <IonFooter className="ion-no-border">
+            <IonToolbar>
+              <IonSearchbar className={styles.customSearchbar}></IonSearchbar>
+              <IonButtons slot="primary" className={styles.buttons}>
+                <IonButton onClick={modalHandler}>
+                  <IonIcon slot="icon-only" icon={addCircleOutline}></IonIcon>
+                </IonButton>
+                <IonButton>
+                  <IonMenuButton autoHide={false}></IonMenuButton>
+                </IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonFooter>
+        )}
       </IonPage>
     </>
   );
