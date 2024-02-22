@@ -61,29 +61,49 @@ const Home = () => {
       return newFormModal;
     });
   };
-  if (loading && token) {
-    return (
-      <div className={styles.spinnerContainer}>
-        <IonSpinner name="dots" color="primary"></IonSpinner>
-      </div>
-    );
-  }
+
+  const queryHandler = async (ev: Event) => {
+    let query = "";
+    const target = ev.target as HTMLIonSearchbarElement;
+    if (target) {
+      query = target.value!.toLowerCase();
+    }
+
+    if (query==="") {
+      // Fetch the original workout list and update the state
+      setLoading(true);
+      try {
+        let response = await getWorkoutExerciseList(token);
+        if (response) {
+          setUserWorkouts(response.data);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    } else {
+      // Apply the filter when the query is not empty
+      setUserWorkouts((prev) =>
+        prev.filter(
+          (exercise) => exercise.exercise.name.toLowerCase().indexOf(query) > -1
+        )
+      );
+    }
+  };
 
   return (
     <>
       {token && <SideMenu setFormModal={setFormModal} />}
       <IonPage id="main-content">
-        {token &&
-          // <IonHeader>
-          //   <IonToolbar>
-          //     <IonTitle>Home</IonTitle>
-          //     <IonButtons slot="primary">
-          //       <IonMenuButton />
-          //     </IonButtons>
-          //   </IonToolbar>
-          // </IonHeader>
-          ""}
         <IonContent class="ion-padding">
+          {loading && token ? (
+            <div className={styles.spinnerContainer}>
+              <IonSpinner name="dots" color="primary"></IonSpinner>
+            </div>
+          ) : (
+            ""
+          )}
           {!token ? (
             <div className={styles.loginGroup}>
               <h1 className={styles.header}>Lift Notes</h1>
@@ -95,11 +115,11 @@ const Home = () => {
           ) : userWorkouts.length > 0 ? (
             <>
               <IonList lines="none">
-                {userWorkouts.map((excercise) => {
+                {userWorkouts.map((exercise) => {
                   return (
                     <WorkoutCard
-                      key={excercise.id}
-                      workoutItem={excercise}
+                      key={exercise.id}
+                      workoutItem={exercise}
                       setFormModal={setFormModal}
                       setUpdateID={setUpdateID}
                     />
@@ -118,14 +138,6 @@ const Home = () => {
             </div>
           )}
         </IonContent>
-        {token
-          ? // "<IonFab slot="fixed" vertical="bottom" horizontal="end">
-            //   <IonFabButton onClick={modalHandler}>
-            //     <IonIcon icon={add}></IonIcon>
-            //   </IonFabButton>
-            // </IonFab>
-            ""
-          : ""}
         <FormModal
           formModal={formModal}
           setFormModal={setFormModal}
@@ -134,7 +146,11 @@ const Home = () => {
         {token && (
           <IonFooter className="ion-no-border">
             <IonToolbar>
-              <IonSearchbar className={styles.customSearchbar}></IonSearchbar>
+              <IonSearchbar
+                className={styles.customSearchbar}
+                onIonInput={(ev) => queryHandler(ev)}
+                debounce={500}
+              ></IonSearchbar>
               <IonButtons slot="primary" className={styles.buttons}>
                 <IonButton onClick={modalHandler}>
                   <IonIcon slot="icon-only" icon={addCircleOutline}></IonIcon>
