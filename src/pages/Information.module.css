@@ -31,3 +31,10 @@ background-color: #f4f5f8;
     width: 80px;
     height: 80px;
 }
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-size: 1.5rem;
+}

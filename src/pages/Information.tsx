@@ -59,7 +59,11 @@ const Information = () => {
   };
 
   if (loading) {
-    return <div className={styles.spinnerContainer}><IonSpinner name="dots" color="primary"></IonSpinner></div>
+    return (
+      <div className={styles.spinnerContainer}>
+        <IonSpinner name="dots" color="primary"></IonSpinner>
+      </div>
+    );
   }
 
   return (
@@ -86,10 +90,9 @@ const Information = () => {
               <tr>
                 {Object.keys(history[0]).map((label) => {
                   if (label === "creationDate") {
-                    label = "Date"
+                    label = "Date";
                   }
 
-              
                   return <th>{label.toUpperCase()}</th>;
                 })}
               </tr>
@@ -107,7 +110,7 @@ const Information = () => {
             </tbody>
           </table>
         ) : selectedSegment === "history" ? (
-          "No Data!"
+          <span className={styles.center}>No Data!</span>
         ) : (
           ""
         )}
@@ -115,7 +118,11 @@ const Information = () => {
         {selectedSegment === "exercise" && (
           <div>
             <h2>{data?.exercise.name}</h2>
-            <p>{data?.exercise.description}</p>
+            {data?.exercise.description ? (
+              <p>{data.exercise.description}</p>
+            ) : (
+             <span className={styles.center}>No description</span> 
+            )}
           </div>
         )}
       </IonContent>

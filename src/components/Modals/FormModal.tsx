@@ -46,7 +46,7 @@ const FormModal = (props: AddModalProps) => {
           <IonButtons slot="start">
             <IonButton onClick={() => cancelHandler()}>Cancel</IonButton>
           </IonButtons>
-          <IonTitle className="ion-text-center">
+          <IonTitle>
             {formStatus === FormType.Add ? "Add Workout" : formStatus === FormType.Update ? "Update Workout": "Add Exercise"}
           </IonTitle>
           <IonButtons slot="end"></IonButtons>

@@ -32,9 +32,9 @@ const Home = () => {
   const [formModal, setFormModal] = useState(false);
   const [updateID, setUpdateID] = useState(0);
   const [loading, setLoading] = useState(true);
-
+  const tokenStorage = localStorage.getItem('token');
   useEffect(() => {
-    const fetchData = async (token: string) => {
+        const fetchData = async (token: string) => {
       try {
         let response = await getWorkoutExerciseList(token);
         if (response) {
@@ -45,8 +45,8 @@ const Home = () => {
         console.error(error);
       }
     };
-    if (token) {
-      fetchData(token);
+    if (tokenStorage) {
+      fetchData(tokenStorage);
     }
   }, [token, formModal]);
 
@@ -94,17 +94,17 @@ const Home = () => {
 
   return (
     <>
-      {token && <SideMenu setFormModal={setFormModal} />}
+      {tokenStorage && <SideMenu setFormModal={setFormModal} />}
       <IonPage id="main-content">
         <IonContent class="ion-padding">
-          {loading && token ? (
+          {loading && tokenStorage ? (
             <div className={styles.spinnerContainer}>
               <IonSpinner name="dots" color="primary"></IonSpinner>
             </div>
           ) : (
             ""
           )}
-          {!token ? (
+          {!tokenStorage ? (
             <div className={styles.loginGroup}>
               <h1 className={styles.header}>Lift Notes</h1>
               <div className={styles.buttonGroup}>
@@ -143,7 +143,7 @@ const Home = () => {
           setFormModal={setFormModal}
           updateID={updateID}
         />
-        {token && (
+        {tokenStorage && (
           <IonFooter className="ion-no-border">
             <IonToolbar>
               <IonSearchbar

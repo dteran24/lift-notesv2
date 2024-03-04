@@ -85,7 +85,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
       </IonCardContent>
       <IonActionSheet
         trigger={workoutItem.id.toString()}
-        header="Card Actions"
+        header="Workout Actions"
         buttons={[
           {
             icon: trashOutline,

@@ -9,7 +9,7 @@ import {
   IonList,
   IonMenuToggle,
   IonIcon,
-} from "@ionic/react";
+  } from "@ionic/react";
 import { informationCircle, settings, barbell } from "ionicons/icons";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import { Dispatch, SetStateAction } from "react";
@@ -39,19 +39,19 @@ const SideMenu = (props: SideMenuProps) => {
       <IonContent className="ion-padding">
         <IonList lines="inset">
           <IonMenuToggle onClick={addExerciseHandler}>
-            <IonItem routerDirection="forward">
+            <IonItem>
               <IonIcon icon={barbell} slot="start" />
               Add Exercise
             </IonItem>
           </IonMenuToggle>
           <IonMenuToggle>
-            <IonItem routerDirection="forward" disabled>
+            <IonItem routerLink="/settings">
               <IonIcon icon={settings} slot="start" />
               Settings
             </IonItem>
           </IonMenuToggle>
           <IonMenuToggle>
-            <IonItem routerDirection="forward" disabled>
+            <IonItem disabled>
               <IonIcon icon={informationCircle} slot="start" />
               About
             </IonItem>
