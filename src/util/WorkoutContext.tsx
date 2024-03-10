@@ -8,9 +8,13 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { Exercise, FormType, WorkoutExercise, WorkoutExerciseAndExercise } from "../models/WorkoutModel";
+import {
+  Exercise,
+  FormType,
+  WorkoutExercise,
+  WorkoutExerciseAndExercise,
+} from "../models/WorkoutModel";
 import { getExerciseList } from "../services/ApiHandler";
-
 
 interface WorkoutContextType {
   token: string;
@@ -39,27 +43,28 @@ interface WorkoutProviderProps {
 export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
   children,
 }) => {
- 
- 
-  const [userWorkouts, setUserWorkouts] = useState<WorkoutExerciseAndExercise[]>([]);
+  const [userWorkouts, setUserWorkouts] = useState<
+    WorkoutExerciseAndExercise[]
+  >([]);
   const [token, setToken] = useState("");
   const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
   const [formStatus, setFormStatus] = useState<FormType>(FormType.Default);
+  const localToken = localStorage.getItem("token");
 
-
-
+  const fetchExerciseList = async () => {
+    const response = await getExerciseList(token);
+    if (typeof response.data !== "string") {
+      setExerciseList(response.data);
+    }
+  };
   useEffect(() => {
-    const fetchExerciseList = async () => {
-      const response = await getExerciseList(token);
-      if (typeof response.data !== "string") {
-        setExerciseList(response.data);
-      }
-    };
-
-    if (token || formStatus === FormType.Exercise) {
+    if (token || formStatus === FormType.Exercise || localToken) {
       fetchExerciseList();
     }
   }, [token, formStatus]);
+  // useEffect(() => {
+  //   fetchExerciseList();
+  // }, []);
 
   return (
     <WorkoutContext.Provider
@@ -70,7 +75,7 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
         userWorkouts,
         setUserWorkouts,
         formStatus,
-        setFormStatus
+        setFormStatus,
       }}
     >
       {children}

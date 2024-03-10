@@ -14,17 +14,26 @@ import {
   IonSearchbar,
   IonSpinner,
   IonTitle,
+  IonToast,
   IonToolbar,
 } from "@ionic/react";
-import { sadOutline, addCircleOutline, searchOutline } from "ionicons/icons";
+import { sadOutline, addCircleOutline, trashOutline } from "ionicons/icons";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import SideMenu from "../components/SideMenu";
 import styles from "./Home.module.css";
 import { useEffect, useState } from "react";
-import { getWorkoutExerciseList } from "../services/ApiHandler";
+import {
+  addWorkoutExercise,
+  getWorkoutExerciseList,
+} from "../services/ApiHandler";
 import WorkoutCard from "../components/WorkoutCard";
 import FormModal from "../components/Modals/FormModal";
-import { FormType } from "../models/WorkoutModel";
+import {
+  FormType,
+  ToastModalState,
+  WorkoutExercise,
+  WorkoutExerciseAndExercise,
+} from "../models/WorkoutModel";
 
 const Home = () => {
   const { token, userWorkouts, setUserWorkouts, setFormStatus } =
@@ -32,9 +41,10 @@ const Home = () => {
   const [formModal, setFormModal] = useState(false);
   const [updateID, setUpdateID] = useState(0);
   const [loading, setLoading] = useState(true);
-  const tokenStorage = localStorage.getItem('token');
+
+  const tokenStorage = localStorage.getItem("token");
   useEffect(() => {
-        const fetchData = async (token: string) => {
+    const fetchData = async (token: string) => {
       try {
         let response = await getWorkoutExerciseList(token);
         if (response) {
@@ -69,7 +79,7 @@ const Home = () => {
       query = target.value!.toLowerCase();
     }
 
-    if (query==="") {
+    if (query === "") {
       // Fetch the original workout list and update the state
       setLoading(true);
       try {
@@ -91,6 +101,7 @@ const Home = () => {
       );
     }
   };
+
 
   return (
     <>
@@ -143,6 +154,7 @@ const Home = () => {
           setFormModal={setFormModal}
           updateID={updateID}
         />
+        
         {tokenStorage && (
           <IonFooter className="ion-no-border">
             <IonToolbar>

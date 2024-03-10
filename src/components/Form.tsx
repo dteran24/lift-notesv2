@@ -5,8 +5,13 @@ import {
   IonInput,
   IonButton,
 } from "@ionic/react";
-import { useEffect, useState } from "react";
-import { Exercise, FormType, WorkoutExercise } from "../models/WorkoutModel";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Exercise,
+  FormType,
+  ToastModalState,
+  WorkoutExercise,
+} from "../models/WorkoutModel";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import styles from "./Form.module.css";
 import {
@@ -18,10 +23,11 @@ type FormProps = {
   ExerciseList: Exercise[];
   cancelHandler: () => void;
   updateID: number;
+  setToastModalHandler: Dispatch<SetStateAction<ToastModalState>>;
 };
 
 const Form = (props: FormProps) => {
-  const { ExerciseList, cancelHandler, updateID } = props;
+  const { ExerciseList, cancelHandler, updateID, setToastModalHandler } = props;
   const { formStatus, token } = useWorkoutContext();
 
   const [nameId, setNameId] = useState<number>();
@@ -95,7 +101,13 @@ const Form = (props: FormProps) => {
           cancelHandler();
         }
         console.log(response.data);
-      } catch (e) {
+      } catch (e: any) {
+        setToastModalHandler((prev) => ({
+          ...prev,
+          message: e,
+          isOpen: true,
+          error: true,
+        }));
         console.error(e);
       }
     } else if (formStatus === FormType.Update && isWorkoutExercise(userInput)) {
@@ -105,7 +117,14 @@ const Form = (props: FormProps) => {
           cancelHandler();
         }
         console.log(response);
-      } catch (e) {
+      } catch (e: any) {
+        setToastModalHandler((prev) => ({
+          ...prev,
+          message: e,
+          isOpen: true,
+          error: true,
+        }));
+
         console.error(e);
       }
     } else if (formStatus === FormType.Exercise && isExercise(userInput)) {
@@ -114,9 +133,15 @@ const Form = (props: FormProps) => {
         if (response) {
           cancelHandler();
         }
-       
+
         console.log(response);
-      } catch (e) {
+      } catch (e: any) {
+        setToastModalHandler((prev) => ({
+          ...prev,
+          message: e,
+          isOpen: true,
+          error: true,
+        }));
         console.error(e);
       }
     }
@@ -130,15 +155,14 @@ const Form = (props: FormProps) => {
     } else if (isExercise(userInput)) {
       return userInput.name === "" || genreInput === "All";
     }
-  
+
     return false;
   };
-  
+
   useEffect(() => {
     disableButtonHandler();
-    console.log(userInput)
+    console.log(userInput);
   }, [userInput]);
-
 
   return (
     <form className={styles.form} onSubmit={submitHandler}>
@@ -206,7 +230,6 @@ const Form = (props: FormProps) => {
           </IonItem>
           <IonItem className={styles.input}>
             <IonInput
-              required
               aria-label="description"
               label="Description (Optional)"
               type="text"

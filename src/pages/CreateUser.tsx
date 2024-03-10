@@ -3,16 +3,16 @@ import {
   IonContent,
   IonInput,
   IonItem,
-  IonLabel,
-  IonNote,
   IonPage,
   IonText,
+  IonToast,
 } from "@ionic/react";
 import styles from "./CreateUser.module.css";
 import { useEffect, useState } from "react";
 import { UserRegistration } from "../models/UserRegistration";
 import { signUp } from "../services/ApiHandler";
 import { useHistory } from "react-router-dom";
+import { person } from "ionicons/icons";
 
 const CreateUser = () => {
   const [userData, setUserData] = useState<UserRegistration>({
@@ -23,14 +23,21 @@ const CreateUser = () => {
   const [message, setMessage] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await signUp(userData);
-      console.log(response.data);
-      history.push("/signin");
+      if (response.status === 201) {
+        setIsOpen(true);
+        setMessage("Account Created!")
+      }
+      setTimeout(() => {
+        history.push("/signin");
+      },1000)
+   
       setError(false);
     } catch (error: any) {
       console.error("Error during sign-up:", error.response.data.message);
@@ -128,6 +135,15 @@ const CreateUser = () => {
             </IonButton>
           </div>
         </form>
+        <IonToast
+          swipeGesture="vertical"
+          isOpen={isOpen}
+          message={message}
+          onDidDismiss={() => setIsOpen(false)}
+          duration={500}
+          color="success"
+          icon={person}
+        ></IonToast>
       </IonContent>
     </IonPage>
   );

@@ -9,18 +9,24 @@ import {
   useIonToast,
   IonActionSheet,
   useIonRouter,
+  IonAlert,
 } from "@ionic/react";
 
 import {
   informationCircleOutline,
   colorWandOutline,
-  trashOutline
+  trashOutline,
 } from "ionicons/icons";
-import { FormType, WorkoutExerciseAndExercise } from "../models/WorkoutModel";
+import {
+  FormType,
+  ToastModalState,
+  WorkoutExercise,
+  WorkoutExerciseAndExercise,
+} from "../models/WorkoutModel";
 import styles from "./workoutCard.module.css";
 import { removeWorkoutExercise } from "../services/ApiHandler";
 import { useWorkoutContext } from "../util/WorkoutContext";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface WorkoutCardProps {
   workoutItem: WorkoutExerciseAndExercise;
@@ -33,10 +39,16 @@ const WorkoutCard = (props: WorkoutCardProps) => {
   const { token, setUserWorkouts, setFormStatus } = useWorkoutContext();
   const router = useIonRouter();
 
+  const [isOpen, setIsOpen] = useState(false);
+
   const editHandler = () => {
     setFormStatus(FormType.Update);
     setUpdateID(workoutItem.id);
     setFormModal(true);
+  };
+
+  const alertHandler = () => {
+    setIsOpen(true);
   };
 
   const deleteHandler = async (id: number) => {
@@ -48,9 +60,9 @@ const WorkoutCard = (props: WorkoutCardProps) => {
   };
 
   const informationHandler = () => {
-    router.push(`/information/${workoutItem.id.toString()}`)
-  }
-
+    router.push(`/information/${workoutItem.id.toString()}`);
+  };
+  console.log(isOpen);
   return (
     <IonCard id={workoutItem.id.toString()} className={styles.card}>
       <IonCardHeader>
@@ -94,7 +106,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
             data: {
               action: "delete",
             },
-            handler: () => deleteHandler(workoutItem.id),
+            handler: () => alertHandler(),
           },
           {
             icon: colorWandOutline,
@@ -105,12 +117,12 @@ const WorkoutCard = (props: WorkoutCardProps) => {
             handler: () => editHandler(),
           },
           {
-            icon:informationCircleOutline,
+            icon: informationCircleOutline,
             text: "Information",
             data: {
               action: "information",
             },
-            handler: () => informationHandler()
+            handler: () => informationHandler(),
           },
           {
             text: "Cancel",
@@ -121,6 +133,29 @@ const WorkoutCard = (props: WorkoutCardProps) => {
           },
         ]}
       ></IonActionSheet>
+      <IonAlert
+        header="Are you sure?"
+        message="All you hardwork will be lost!"
+        isOpen={isOpen}
+        buttons={[
+          {
+            text: "Cancel",
+            role: "cancel",
+            handler: () => {
+              console.log("Alert canceled");
+            },
+          },
+          {
+            text: "Delete",
+            cssClass: 'alert-button-confirm',
+            role: "confirm",
+            handler: () => {
+              deleteHandler(workoutItem.id);
+            },
+          },
+        ]}
+        onDidDismiss={() => setIsOpen(false)}
+      ></IonAlert>
     </IonCard>
   );
 };

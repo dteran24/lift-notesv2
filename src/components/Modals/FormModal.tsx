@@ -3,19 +3,14 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
-  IonInput,
-  IonItem,
-  IonLabel,
   IonModal,
-  IonSelect,
-  IonSelectOption,
   IonTitle,
+  IonToast,
   IonToolbar,
-  useIonToast,
 } from "@ionic/react";
 import { useWorkoutContext } from "../../util/WorkoutContext";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FormType} from "../../models/WorkoutModel";
+import { FormType, ToastModalState } from "../../models/WorkoutModel";
 
 import {
   alertCircleOutline,
@@ -33,11 +28,15 @@ type AddModalProps = {
 const FormModal = (props: AddModalProps) => {
   const { formModal, setFormModal, updateID } = props;
   const { exerciseList, formStatus } = useWorkoutContext();
+  const [modalToastHandler, setModalToastHandler] = useState<ToastModalState>({
+    isOpen: false,
+    message: "",
+    error: false,
+  });
 
   const cancelHandler = () => {
     setFormModal(false);
   };
-
 
   return (
     <IonModal isOpen={formModal}>
@@ -47,13 +46,30 @@ const FormModal = (props: AddModalProps) => {
             <IonButton onClick={() => cancelHandler()}>Cancel</IonButton>
           </IonButtons>
           <IonTitle>
-            {formStatus === FormType.Add ? "Add Workout" : formStatus === FormType.Update ? "Update Workout": "Add Exercise"}
+            {formStatus === FormType.Add
+              ? "Add Workout"
+              : formStatus === FormType.Update
+              ? "Update Workout"
+              : "Add Exercise"}
           </IonTitle>
           <IonButtons slot="end"></IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <Form ExerciseList={exerciseList} cancelHandler={cancelHandler} updateID={updateID} />
+        <Form
+          ExerciseList={exerciseList}
+          cancelHandler={cancelHandler}
+          updateID={updateID}
+          setToastModalHandler ={setModalToastHandler}
+        />
+        <IonToast
+          swipeGesture="vertical"
+          isOpen={modalToastHandler.isOpen}
+          message={modalToastHandler.message}
+          onDidDismiss={() => setModalToastHandler((prev) => ({...prev, isOpen: false}))}
+          duration={500}
+          color={modalToastHandler.error ? "danger": "success"}
+        ></IonToast>
       </IonContent>
     </IonModal>
   );

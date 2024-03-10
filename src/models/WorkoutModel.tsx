@@ -4,7 +4,7 @@ export interface Exercise {
   name: string;
   description?: string;
 }
-export interface WorkoutExercise{
+export interface WorkoutExercise {
   id?: number;
   sets: number;
   reps: number;
@@ -13,7 +13,7 @@ export interface WorkoutExercise{
   lastUpdated: string;
 }
 
-export interface WorkoutExerciseAndExercise{
+export interface WorkoutExerciseAndExercise {
   exercise: Exercise;
   id: number;
   sets: number;
@@ -22,7 +22,7 @@ export interface WorkoutExerciseAndExercise{
   creationDate: string;
   lastUpdated: string;
 }
-export interface ExerciseHistory{
+export interface ExerciseHistory {
   id: number;
   creationDate: string;
   reps: number;
@@ -33,9 +33,16 @@ export interface WorkoutCategory {
   genre: string;
   workouts: Exercise[];
 }
-export enum FormType{
-  Default="",
+
+export enum FormType {
+  Default = "",
   Add = "add",
   Update = "update",
-  Exercise = "exercise"
+  Exercise = "exercise",
 }
+
+export type ToastModalState = {
+  isOpen: boolean;
+  message: string;
+  error: boolean;
+};
