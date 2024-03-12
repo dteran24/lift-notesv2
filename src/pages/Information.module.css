@@ -18,11 +18,11 @@
     padding: .5rem 0;
 }
 .table tr:nth-child(even){
-background-color: #f4f5f8;
+background-color: #99999b;
 }
 .spinnerContainer{
     height: 100vh;
-    background-color: white;
+    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
