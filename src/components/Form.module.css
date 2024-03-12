@@ -4,6 +4,9 @@
 }
 .input {
   margin: 1rem 0;
+}
+
+.ios .input {
   --background: var(--ion-color-step-100);
 }
 .buttons {
@@ -15,6 +18,5 @@
   justify-content: center;
   flex-direction: column;
   padding: 1rem; /* Adjust padding as needed */
-  gap: 8px
+  gap: 8px;
 }
-

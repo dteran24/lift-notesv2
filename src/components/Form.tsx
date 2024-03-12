@@ -283,7 +283,7 @@ const Form = (props: FormProps) => {
           Submit
         </IonButton>
         <IonButton
-          onClick={() => cancelHandler()}
+          onClick={cancelHandler}
           fill="outline"
         >
           Cancel

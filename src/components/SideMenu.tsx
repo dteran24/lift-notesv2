@@ -9,8 +9,8 @@ import {
   IonList,
   IonMenuToggle,
   IonIcon,
-  } from "@ionic/react";
-import { informationCircle, settings, barbell } from "ionicons/icons";
+} from "@ionic/react";
+import { informationCircle, settings, barbell, enterOutline } from "ionicons/icons";
 import { useWorkoutContext } from "../util/WorkoutContext";
 import { Dispatch, SetStateAction } from "react";
 import { FormType } from "../models/WorkoutModel";
@@ -28,6 +28,12 @@ const SideMenu = (props: SideMenuProps) => {
     setFormStatus(FormType.Exercise);
     setFormModal(true);
   };
+
+  const signOutHandler = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+
+  }
 
   return (
     <IonMenu type="overlay" side="end" contentId="main-content">
@@ -51,9 +57,15 @@ const SideMenu = (props: SideMenuProps) => {
             </IonItem>
           </IonMenuToggle>
           <IonMenuToggle>
-            <IonItem disabled>
+            <IonItem>
               <IonIcon icon={informationCircle} slot="start" />
               About
+            </IonItem>
+          </IonMenuToggle>
+          <IonMenuToggle onClick={signOutHandler}>
+            <IonItem>
+              <IonIcon icon={enterOutline} slot="start" />
+              Sign Out
             </IonItem>
           </IonMenuToggle>
         </IonList>
