@@ -135,7 +135,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
       ></IonActionSheet>
       <IonAlert
         header="Are you sure?"
-        message="All you hardwork will be lost!"
+        message="All your hardwork will be lost!"
         isOpen={isOpen}
         buttons={[
           {

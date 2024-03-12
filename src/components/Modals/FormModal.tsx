@@ -42,9 +42,6 @@ const FormModal = (props: AddModalProps) => {
     <IonModal isOpen={formModal}>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonButton onClick={() => cancelHandler()}>Cancel</IonButton>
-          </IonButtons>
           <IonTitle>
             {formStatus === FormType.Add
               ? "Add Workout"

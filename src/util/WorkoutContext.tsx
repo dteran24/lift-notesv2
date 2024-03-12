@@ -24,6 +24,8 @@ interface WorkoutContextType {
   setUserWorkouts: Dispatch<SetStateAction<WorkoutExerciseAndExercise[]>>;
   formStatus: string;
   setFormStatus: Dispatch<SetStateAction<FormType>>;
+  setDarkMode: Dispatch<SetStateAction<boolean>>;
+  darkMode: boolean;
 }
 
 const WorkoutContext = createContext<WorkoutContextType | undefined>(undefined);
@@ -49,6 +51,8 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
   const [token, setToken] = useState("");
   const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
   const [formStatus, setFormStatus] = useState<FormType>(FormType.Default);
+  const [darkMode, setDarkMode] = useState(false);
+  const darkModeLocal = localStorage.getItem("darkMode");
   const localToken = localStorage.getItem("token");
 
   const fetchExerciseList = async () => {
@@ -62,9 +66,29 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
       fetchExerciseList();
     }
   }, [token, formStatus]);
-  // useEffect(() => {
-  //   fetchExerciseList();
-  // }, []);
+
+  const toggleDarkTheme = (shouldAdd: boolean) => {
+    document.body.classList.toggle("dark", shouldAdd);
+  };
+  const initializeDarkTheme = (isDark: boolean) => {
+    setDarkMode(isDark);
+    toggleDarkTheme(isDark);
+  };
+
+  useEffect(() => {
+    const storedDarkMode = localStorage.getItem("darkMode");
+
+    if (storedDarkMode !== null) {
+      initializeDarkTheme(storedDarkMode === "true");
+    } else {
+      initializeDarkTheme(false);
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+      prefersDark.addEventListener("change", (mediaQuery) =>
+        initializeDarkTheme(mediaQuery.matches)
+      );
+    }
+  }, [darkMode]);
 
   return (
     <WorkoutContext.Provider
@@ -76,6 +100,8 @@ export const WorkoutProvider: React.FC<WorkoutProviderProps> = ({
         setUserWorkouts,
         formStatus,
         setFormStatus,
+        setDarkMode,
+        darkMode,
       }}
     >
       {children}

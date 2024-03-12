@@ -273,16 +273,22 @@ const Form = (props: FormProps) => {
           </IonItem>
         </>
       )}
-
-      <IonButton
-        type="submit"
-        shape="round"
-        expand="full"
-        fill="solid"
-        disabled={disableButtonHandler()}
-      >
-        Submit
-      </IonButton>
+      <div className={styles.buttons}>
+        <IonButton
+          type="submit"
+          expand="full"
+          fill="solid"
+          disabled={disableButtonHandler()}
+        >
+          Submit
+        </IonButton>
+        <IonButton
+          onClick={() => cancelHandler()}
+          fill="outline"
+        >
+          Cancel
+        </IonButton>
+      </div>
     </form>
   );
 };
