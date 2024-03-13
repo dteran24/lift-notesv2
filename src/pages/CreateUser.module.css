@@ -1,12 +1,32 @@
-.center {
+.header {
+  text-align: center;
   margin-top: 40%;
-  padding: 0 1rem;
 }
+.header h1 {
+  font-weight: 700;
+}
+.header h3{
+  font-size: 1em;
+}
+form{
+  margin-top: 2rem;
+}
+
 .buttonGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-top: 1rem;
+  gap: 8px;
+}
+.buttonGroup span{
+  text-align: center;
 }
 .message {
   padding: 0 1rem;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
+}
+a {
+  text-decoration: none;
 }
 

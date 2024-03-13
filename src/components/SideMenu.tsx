@@ -57,7 +57,7 @@ const SideMenu = (props: SideMenuProps) => {
             </IonItem>
           </IonMenuToggle>
           <IonMenuToggle>
-            <IonItem>
+            <IonItem routerLink="/about">
               <IonIcon icon={informationCircle} slot="start" />
               About
             </IonItem>

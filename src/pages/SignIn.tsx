@@ -24,7 +24,6 @@ const SignIn = () => {
   const [isError, setIsError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  
   const history = useHistory();
 
   const submitHandler = async (e: React.FormEvent) => {
@@ -32,9 +31,8 @@ const SignIn = () => {
     try {
       let response = await Login(signInData);
       setToken(response.data.jwt);
-      localStorage.setItem('token', response.data.jwt);
-      
-      
+      localStorage.setItem("token", response.data.jwt);
+
       console.log(response.data);
       setIsError(false);
       setSignInData({ username: "", password: "" });
@@ -66,8 +64,12 @@ const SignIn = () => {
 
   return (
     <IonPage>
-      <IonContent>
-        <form className={styles.center} onSubmit={submitHandler}>
+      <IonContent className="ion-padding">
+        <hgroup className={styles.header}>
+          <h1>Sign In</h1>
+          <h3>Enter your email and password to access your workouts!</h3>
+        </hgroup>
+        <form onSubmit={submitHandler}>
           <IonItem>
             <IonLabel position="stacked">Username</IonLabel>
             <IonInput

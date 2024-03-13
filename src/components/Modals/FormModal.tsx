@@ -11,12 +11,6 @@ import {
 import { useWorkoutContext } from "../../util/WorkoutContext";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FormType, ToastModalState } from "../../models/WorkoutModel";
-
-import {
-  alertCircleOutline,
-  checkboxOutline,
-  checkmarkCircleOutline,
-} from "ionicons/icons";
 import Form from "../Form";
 
 type AddModalProps = {

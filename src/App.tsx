@@ -29,6 +29,7 @@ import SignIn from './pages/SignIn';
 import CreateUser from './pages/CreateUser';
 import Information from './pages/Information';
 import Settings from './pages/Settings';
+import About from './pages/About';
 
 setupIonicReact();
 //leave path empty for home
@@ -40,7 +41,8 @@ const App: React.FC = () => (
         <Route path="" component={Home} /> 
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={CreateUser} />
-        <Route path="/settings" component={Settings}/>
+        <Route path="/settings" component={Settings} />
+        <Route path="/about" component={About}/>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

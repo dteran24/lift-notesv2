@@ -32,12 +32,12 @@ const CreateUser = () => {
       const response = await signUp(userData);
       if (response.status === 201) {
         setIsOpen(true);
-        setMessage("Account Created!")
+        setMessage("Account Created!");
       }
       setTimeout(() => {
         history.push("/signin");
-      },1000)
-   
+      }, 1000);
+
       setError(false);
     } catch (error: any) {
       console.error("Error during sign-up:", error.response.data.message);
@@ -78,9 +78,13 @@ const CreateUser = () => {
   }, [userData]);
 
   return (
-    <IonPage className={styles.pageHeight}>
-      <IonContent>
-        <form className={styles.center} onSubmit={submitHandler}>
+    <IonPage>
+      <IonContent className={`${styles.center} ion-padding`}>
+        <hgroup className={styles.header}>
+          <h1>Create Account</h1>
+          <h3>Keep track of your hardwork everywhere!</h3>
+        </hgroup>
+        <form onSubmit={submitHandler}>
           <IonItem>
             <IonInput
               required
@@ -130,9 +134,10 @@ const CreateUser = () => {
             >
               Create account
             </IonButton>
-            <IonButton fill="clear" routerLink="/signin">
+            <span>
               Already have an account?
-            </IonButton>
+              <a href="/signin"> Sign In</a>
+            </span>
           </div>
         </form>
         <IonToast
