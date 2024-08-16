@@ -1,15 +1,18 @@
 .header {
   text-align: center;
-  margin-top: 40%;
+  max-width: 50%;
+  margin: 0 auto;
 }
 .header h1 {
   font-weight: 700;
 }
-.header h3{
+.header h3 {
   font-size: 1em;
 }
-form{
+form {
   margin-top: 2rem;
+  max-width: 50%;
+  margin: 0 auto;
 }
 .buttonGroup {
   margin-top: 1rem;
@@ -19,3 +22,11 @@ form{
   margin-top: 0.5rem;
 }
 
+@media screen and (max-width: 480px) {
+  form {
+    max-width: 100%;
+  }
+  .header {
+    max-width: 100%;
+  }
+}

@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const axiosProject = axios.create({
-    baseURL: "http://localhost:8080"
+  baseURL: "http://liftnotes-service.up.railway.app",
 });

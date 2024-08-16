@@ -102,7 +102,6 @@ const Home = () => {
     }
   };
 
-
   return (
     <>
       {tokenStorage && <SideMenu setFormModal={setFormModal} />}
@@ -154,7 +153,7 @@ const Home = () => {
           setFormModal={setFormModal}
           updateID={updateID}
         />
-        
+
         {tokenStorage && (
           <IonFooter className="ion-no-border">
             <IonToolbar>

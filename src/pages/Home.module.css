@@ -9,8 +9,8 @@ ion-spinner {
   width: 80px;
   height: 80px;
 }
-.iconContainer ion-icon{
-    font-size: 7rem;
+.iconContainer ion-icon {
+  font-size: 7rem;
 }
 
 .iconContainer {
@@ -25,16 +25,18 @@ ion-spinner {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 50%;
+  margin: 0 auto;
 }
 
 ion-searchbar.customSearchbar {
- padding-top: 12px;
+  padding-top: 12px;
 }
-.buttons{
+.buttons {
   padding-top: 10px;
 }
 
 .loginGroup {
   text-align: center;
-  margin-top: 40%;
+  margin-top: 20%;
 }
